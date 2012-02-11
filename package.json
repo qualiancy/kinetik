@@ -1,0 +1,28 @@
+{
+  "author": "Jake Luer <jake@alogicalparadox.com>",
+  "name": "kinetik",
+  "description": "Queues",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/qualiancy/kinetik.git"
+  },
+  "main": "./index",
+  "scripts": {
+    "test": "make test"
+  },
+  "engines": {
+    "node": ">= 0.6.0"
+  },
+  "dependencies": {
+    "drip": "0.2.x",
+    "seed": "0.1.x",
+    "seed-redis": "0.1.x",
+    "tea": "latest"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "chai": "*"
+  },
+  "optionalDependencies": {}
+}
