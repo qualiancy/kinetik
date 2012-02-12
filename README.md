@@ -60,7 +60,7 @@ queue
 queue.process([ 'notifications' ]);
 ```
 
-#### Notes
+*Notes*
 
 * The `tag` "notifications" allows us to group common types of jobs together for completion by a single worker process.
 * The `job` parameter for the action will be comprised of all relevant data needed to complete the task.
