@@ -23,6 +23,8 @@ Kinetik is available on NPM.
 
 ## Basic Usage
 
+#### Choose Your Storage
+
 The first step to using Kinetik is creating a new Queue using one of Seed's storage engines.
 
 ```js
@@ -36,6 +38,8 @@ var queue = kinetik.createQueue({
 ```
 
 You can use any of Seed's available storage adapters. See that adapater's documentation for relevant configurations.
+
+#### Defining Jobs
 
 Next, you will need to define a job.
 
@@ -61,6 +65,8 @@ queue.process([ 'notifications' ]);
 * The `tag` "notifications" allows us to group common types of jobs together for completion by a single worker process.
 * The `job` parameter for the action will be comprised of all relevant data needed to complete the task.
 * The `done` parameter for the action accepts an error object as parameter. If sent, will flag job as `failed`, otherwise will flag as `complete`.
+
+#### Adding Jobs
 
 Next, you will need to create jobs...
 
