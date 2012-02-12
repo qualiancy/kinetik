@@ -18,7 +18,7 @@
     "drip": "0.2.x",
     "seed": "0.1.x",
     "seed-redis": "0.1.x",
-    "tea": "latest"
+    "debug": "0.5.x"
   },
   "devDependencies": {
     "mocha": "*",
