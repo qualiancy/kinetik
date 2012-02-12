@@ -5,7 +5,9 @@
 Kinetik jobs are placed in a background queue and categoried by tag. Workers can then be spawned to focus
 on a given set of tags. 
 
-### What is Seed?
+*Kinetik is in early-alpha. Don't forget to `watch` for further developments.*
+
+##### What is Seed?
 
 [Seed](http://github.com/qualiancy/seed), which stands for _storage-agnostic, event emitting datasets_, 
 is a library of components that provide a common API for working with data, no matter the source. 
