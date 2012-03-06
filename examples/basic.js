@@ -6,7 +6,10 @@ queue
   .define('notify')
   .tag('urgent')
   .action(function (job, done) {
-    setTimeout(done, 100);
+    setTimeout(function () {
+      console.log('notify async');
+      done();
+    }, 100);
   });
 
 queue
@@ -14,6 +17,7 @@ queue
   .tag('normal')
   .action(function (job, done) {
     var address = job.data.email;
+    console.log('email job');
     done();
   });
 
@@ -31,5 +35,8 @@ function sendEmail () {
 setInterval(notify, 3000);
 setInterval(sendEmail, 1000);
 
-queue.process([ 'urgent', 'normal' ]);
+var tags;
+if (process.env.QUEUE) tags = process.env.QUEUE.split(',');
+else tags = [ 'urgent', 'normal' ];
 
+queue.process(tags);
