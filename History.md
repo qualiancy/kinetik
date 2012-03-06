@@ -1,4 +1,13 @@
 
+0.0.3 / 2012-03-05 
+==================
+
+  * update + new examples
+  * queue has drain event for creation
+  * refactor basic example
+  * seed 0.2.x compat
+  * update seed deps
+
 0.0.2 / 2012-02-12 
 ==================
 
