@@ -22,7 +22,8 @@
   },
   "devDependencies": {
     "mocha": "*",
-    "chai": "*"
+    "chai": "*",
+    "chai-spies": "*"
   },
   "optionalDependencies": {}
 }
