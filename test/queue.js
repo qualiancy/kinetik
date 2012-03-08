@@ -33,4 +33,28 @@ describe('queue', function () {
     queue._processor.store.should.eql(store);
   });
 
+  it('should allow for jobs to fetched', function (done) {
+    var store = new Seed.MemoryStore()
+      , queue = kinetik.createQueue({ store: store });
+
+    queue.create('fetch me', {
+      hello: 'universe'
+    });
+
+    queue.create('dont fetch me', {
+      hello: 'world'
+    });
+
+    queue.fetch({ task: 'fetch me'}, function (err, jobs) {
+      should.not.exist(err);
+      jobs.should.be.instanceof(Seed.Graph);
+      jobs.should.have.length(1);
+      jobs.each(function (job) {
+        job.get('task').should.equal('fetch me');
+        job.get('data.hello').should.equal('universe');
+      });
+      done();
+    });
+  });
+
 });
