@@ -1,4 +1,18 @@
 
+0.0.6 / 2012-03-08 
+==================
+
+  * tests for Queue#fetch
+  * Queue#fetch for direct seed.graph access
+  * Merge branch 'feature/middleware'
+  * updated basic example with environment middleware
+  * added environment middleware #6
+  * added Queue#use. #6
+  * added middleware loader. #6
+  * comment ms utility. Closes #4
+  * test for stringed delay
+  * added ms convert util
+
 0.0.5 / 2012-03-07 
 ==================
 
