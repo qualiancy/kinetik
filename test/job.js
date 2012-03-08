@@ -58,7 +58,7 @@ describe('jobs', function () {
       });
 
     queue.once('flush', spy);
-    var job = queue.create('delayed task', { hello: 'universe' }, 100);
+    var job = queue.create('delayed task', { hello: 'universe' }, '0.3s');
     job.get('status').should.equal('delayed');
     job.get('delay').should.be.above(new Date().getTime());
     queue.process([ 'delayed' ]);
