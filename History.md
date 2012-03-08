@@ -1,4 +1,15 @@
 
+0.0.5 / 2012-03-07 
+==================
+
+  * Merge branch 'feature/delays'
+  * refactor + new tests for delayed jobs
+  * refactor queue#processTask to support delayed jobs
+  * queue events
+  * refactor job for event testing and error storage
+  * added chai-spies for event testing
+  * added delay
+
 0.0.4 / 2012-03-07 
 ==================
 
