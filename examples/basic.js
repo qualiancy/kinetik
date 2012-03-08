@@ -34,8 +34,4 @@ function sendEmail () {
 setInterval(notify, 3000);
 setInterval(sendEmail, 1000);
 
-var tags;
-if (process.env.QUEUE) tags = process.env.QUEUE.split(',');
-else tags = [ 'urgent', 'normal' ];
-
-queue.process(tags);
+queue.use(kinetik.environment([ 'normal', 'urgent' ]));
