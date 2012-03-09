@@ -1,4 +1,13 @@
 
+0.0.7 / 2012-03-08 
+==================
+
+  * tests for clean. Closes #2
+  * Queue#clean. #2
+  * cancel notes. Closes #3
+  * allow jobs to be cancelled
+  * job status set to `processing` during while running action
+
 0.0.6 / 2012-03-08 
 ==================
 
