@@ -57,4 +57,75 @@ describe('queue', function () {
     });
   });
 
+  describe('cleaning', function () {
+    var queue = kinetik.createQueue({ store: new Seed.MemoryStore });
+
+    queue
+      .define('task 1')
+      .tag('one')
+      .action(function (job, next) {
+        next();
+      });
+
+    queue
+      .define('task 2')
+      .tag('two')
+      .action(function (job, next) {
+        next();
+      });
+
+    queue
+      .define('task 3')
+      .tag('three')
+      .action(function (job, next) {
+        next();
+      });
+
+    before(function (done) {
+      queue.once('drain', function () {
+        queue.process([ 'one', 'two', 'three' ]);
+      });
+      queue.on('flush', function flush () {
+        queue.fetch({ status: 'completed' }, function (err, jobs) {
+          should.not.exist(err);
+          if (jobs.length == 6) {
+            done();
+            queue.off('flush', flush);
+          }
+        });
+      });
+      queue.create('task 1');
+      queue.create('task 1');
+      queue.create('task 2');
+      queue.create('task 2');
+      queue.create('task 3');
+      queue.create('task 3');
+    });
+
+    it('should allow for certain tags to be cleaned', function (done) {
+      queue.clean([ 'one' ], function (err) {
+        should.not.exist(err);
+        queue.fetch({ status: 'completed' }, function (ferr, jobs) {
+          should.not.exist(ferr);
+          jobs.should.have.length(4);
+          jobs.each(function (job) {
+            job.get('task').should.not.equal('task 1');
+          });
+          done();
+        });
+      });
+    })
+
+    it('should allow for all tags to be cleaned', function (done) {
+      queue.clean(function (err) {
+        should.not.exist(err);
+        queue.fetch({ status: 'completed' }, function (ferr, jobs) {
+          should.not.exist(ferr);
+          jobs.should.have.length(0);
+          done();
+        });
+      });
+    });
+  });
+
 });
