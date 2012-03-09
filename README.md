@@ -1,4 +1,4 @@
-# Kinetik
+# Kinetik [![Build Status](https://secure.travis-ci.org/qualiancy/kinetik.png?branch=master)](http://travis-ci.org/qualiancy/kinetik)
 
 > A tag-based job queue backed by [Seed](http://github.com/qualiancy/seed).
 
