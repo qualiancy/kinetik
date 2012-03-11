@@ -58,7 +58,7 @@ describe('queue', function () {
   });
 
   describe('cleaning', function () {
-    var queue = kinetik.createQueue({ store: new Seed.MemoryStore });
+    var queue = kinetik.createQueue({ store: new Seed.MemoryStore, interval: 50 });
 
     queue
       .define('task 1')

@@ -10,7 +10,7 @@ var kinetik = require('..');
 describe('jobs', function () {
 
   it('should allow for jobs to to be created', function () {
-    var queue = kinetik.createQueue({ store: new Seed.MemoryStore() })
+    var queue = kinetik.createQueue({ store: new Seed.MemoryStore(), interval: 50  })
       , job = queue.create('task', { hello: 'universe' });
     job.should.be.instanceof(Seed.Model);
     job.get('status').should.equal('queued');
@@ -19,7 +19,7 @@ describe('jobs', function () {
   });
 
   it('should able to be executed', function (done) {
-    var queue = kinetik.createQueue({ store: new Seed.MemoryStore() })
+    var queue = kinetik.createQueue({ store: new Seed.MemoryStore(), interval: 50 })
 
     var i = 2;
     function after () {
@@ -44,7 +44,7 @@ describe('jobs', function () {
   });
 
   it('should be able to be delayed', function (done) {
-    var queue = kinetik.createQueue({ store: new Seed.MemoryStore() })
+    var queue = kinetik.createQueue({ store: new Seed.MemoryStore(), interval: 50 })
       , spy = chai.spy();
 
     queue
