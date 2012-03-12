@@ -102,6 +102,12 @@ describe('queue', function () {
       queue.create('task 3');
     });
 
+    it('should allow us to get a list of all tags', function () {
+      queue.tags.should.be.instanceof(Array);
+      queue.tags.should.have.length(3);
+      queue.tags.should.eql([ 'one', 'two', 'three' ]);
+    });
+
     it('should allow for certain tags to be cleaned', function (done) {
       queue.clean([ 'one' ], function (err) {
         should.not.exist(err);
