@@ -102,6 +102,23 @@ describe('queue', function () {
       queue.create('task 3');
     });
 
+    it('should allow for a environment based configuration', function () {
+      queue.configure(function () {
+        queue.testvar1 = 'test var 1';
+      });
+
+      queue.configure('test', function () {
+        queue.testingvar = 'hello universe';
+      });
+
+      queue.configure('production', function () {
+        queue.testvar1 == 'prod var';
+      });
+
+      queue.should.have.property('testvar1', 'test var 1');
+      queue.should.have.property('testingvar', 'hello universe');
+    });
+
     it('should allow us to get a list of all tags', function () {
       queue.tags.should.be.instanceof(Array);
       queue.tags.should.have.length(3);
