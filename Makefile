@@ -14,4 +14,4 @@ lib-cov:
 	@rm -rf lib-cov
 	@jscoverage lib lib-cov
 
-.PHONY: test
+.PHONY: test lib-cov test-cov
