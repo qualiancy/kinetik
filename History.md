@@ -1,4 +1,20 @@
 
+0.0.8 / 2012-03-14 
+==================
+
+  * updated to seed-redis 0.3.x
+  * test-cov makefile
+  * test for queue#configure
+  * tests for queue#tags
+  * added Queue#tags getter
+  * tests use shorter interval
+  * improved processing interval support
+  * Queue#configure for environment based configurations
+  * clean env middleware
+  * added travis to read me [ci-skip]
+  * added travis support
+  * added test coverage support
+
 0.0.7 / 2012-03-08 
 ==================
 
