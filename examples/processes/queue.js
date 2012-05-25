@@ -20,8 +20,12 @@ queue
     done();
   });
 
-var tags;
-if (process.env.QUEUE) tags = process.env.QUEUE.split(',');
-else tags = [ 'urgent', 'normal' ];
+queue.on('iterate', function (tag) {
+  console.log('checking tag %s', tag);
+});
 
-queue.process(tags);
+queue.on('flush', function (tags) {
+  console.log('tags empty: %s', tags.join(', '));
+});
+
+queue.use(kinetik.environment([ 'normal', 'urgent' ]));
