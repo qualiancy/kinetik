@@ -16,9 +16,9 @@
   },
   "dependencies": {
     "drip": "0.2.x",
-    "seed": "0.2.x",
-    "seed-redis": "0.3.x",
-    "debug": "0.5.x"
+    "seed": "0.3.x",
+    "seed-redis": "0.4.x",
+    "debug": "*"
   },
   "devDependencies": {
     "mocha": "*",
