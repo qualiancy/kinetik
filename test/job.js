@@ -31,6 +31,7 @@ describe('jobs', function () {
       .tag('testing')
       .action(function (job, next) {
         job.should.have.property('data');
+        job.should.have.property('id');
         job.data.should.eql({ hello: 'universe' });
         after();
         next();
