@@ -14,6 +14,10 @@ describe('storage integrations', function () {
     storeTests(store);
   });
 
+  // we only want to run the rest of the tests
+  // if we are running integration env
+  if (process.env.KINETIK_ENV !== 'integration') return;
+
   describe('RedisStore', function () {
     var store = new RedisStore({ db: 2 });
 
