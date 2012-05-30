@@ -60,31 +60,33 @@ describe('queue', function () {
   describe('cleaning', function () {
     var queue = kinetik.createQueue({ store: new Seed.MemoryStore, interval: 50 });
 
-    queue
-      .define('task 1')
-      .tag('one')
-      .action(function (job, next) {
-        next();
-      });
-
-    queue
-      .define('task 2')
-      .tag('two')
-      .action(function (job, next) {
-        next();
-      });
-
-    queue
-      .define('task 3')
-      .tag('three')
-      .action(function (job, next) {
-        next();
-      });
 
     before(function (done) {
+      queue
+        .define('task 1')
+        .tag('one')
+        .action(function (job, next) {
+          next();
+        });
+
+      queue
+        .define('task 2')
+        .tag('two')
+        .action(function (job, next) {
+          next();
+        });
+
+      queue
+        .define('task 3')
+        .tag('three')
+        .action(function (job, next) {
+          next();
+        });
+
       queue.once('drain', function () {
         queue.process([ 'one', 'two', 'three' ]);
       });
+
       queue.on('flush', function flush () {
         queue.fetch({ status: 'completed' }, function (err, jobs) {
           should.not.exist(err);
@@ -94,6 +96,7 @@ describe('queue', function () {
           }
         });
       });
+
       queue.create('task 1');
       queue.create('task 1');
       queue.create('task 2');
@@ -103,6 +106,9 @@ describe('queue', function () {
     });
 
     it('should allow for a environment based configuration', function () {
+      var env = process.env.NODE_ENV;
+      process.env.NODE_ENV = 'test';
+
       queue.configure(function () {
         queue.testvar1 = 'test var 1';
       });
@@ -117,6 +123,7 @@ describe('queue', function () {
 
       queue.should.have.property('testvar1', 'test var 1');
       queue.should.have.property('testingvar', 'hello universe');
+      process.env.NODE_ENV = env;
     });
 
     it('should allow us to get a list of all tags', function () {
