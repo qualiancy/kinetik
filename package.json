@@ -16,13 +16,16 @@
   },
   "dependencies": {
     "seed": "0.3.x",
-    "seed-redis": "0.4.x",
+    "electron": "0.1.x",
+    "orchid": "0.0.x",
     "debug": "*"
   },
   "devDependencies": {
     "mocha": "*",
     "chai": "*",
-    "chai-spies": "*"
+    "chai-spies": "*",
+    "seed-redis": "0.4.x",
+    "seed-mongodb": "0.3.x"
   },
   "optionalDependencies": {}
 }
