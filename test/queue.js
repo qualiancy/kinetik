@@ -29,8 +29,6 @@ describe('queue', function () {
 
     queue._store.should.be.instanceof(Seed.MemoryStore);
     queue._store.should.eql(store);
-    queue._processor.store.should.be.instanceof(Seed.MemoryStore);
-    queue._processor.store.should.eql(store);
   });
 
   it('should allow for jobs to fetched', function (done) {
