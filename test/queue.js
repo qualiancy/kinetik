@@ -37,23 +37,25 @@ describe('queue', function () {
     var store = new Seed.MemoryStore()
       , queue = kinetik.createQueue({ store: store });
 
-    queue.create('task::1', {
+    queue.create('task:1', {
       hello: 'universe'
     });
 
-    queue.create('task::2', {
+    queue.create('task:2', {
       hello: 'world'
     });
 
-    queue.fetch({}, function (err, jobs) {
-      should.not.exist(err);
-      jobs.should.be.instanceof(Seed.Hash);
-      jobs.should.have.length(2);
-      jobs.each(function (value, key) {
-        var name = value.get('task');
-        [ 'task::1', 'task::2' ].indexOf(name).should.be.above(-1);
+    queue.once('drain', function () {
+      queue.fetch({}, function (err, jobs) {
+        should.not.exist(err);
+        jobs.should.be.instanceof(Seed.Hash);
+        jobs.should.have.length(2);
+        jobs.each(function (value, key) {
+          var name = value.get('task');
+          [ 'task:1', 'task:2' ].indexOf(name).should.be.above(-1);
+        });
+        done();
       });
-      done();
     });
   });
 

@@ -45,7 +45,7 @@ describe('tasks', function () {
 
     it('should emit success for each successful execution', function (done) {
       var store = new Seed.MemoryStore
-        , queue = kinetik.createQueue({ store: store })
+        , queue = kinetik.createQueue({ store: store, interval: 50 })
         , spy = chai.spy();
 
       queue
@@ -70,7 +70,7 @@ describe('tasks', function () {
 
     it('should emit error for each failed execution', function (done) {
       var store = new Seed.MemoryStore
-        , queue = kinetik.createQueue({ store: store })
+        , queue = kinetik.createQueue({ store: store, interval: 50 })
         , spye = chai.spy();
 
       queue
