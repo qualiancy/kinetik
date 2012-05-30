@@ -1,0 +1,24 @@
+{
+  "locals": {
+    "title": "Kinetik"
+  }
+
+  , "plugins": [
+    { "name": "code"
+    , "files": [
+          { "name": "index"
+          , "title": "Kinetik Queue"
+          , "file": "../../lib/kinetik/queue.js"
+          , "description": ":)"
+          , "template": "index"
+          , "render-file": false }
+        , { "name": "index"
+          , "title": "Tasks"
+          , "file": "../../lib/kinetik/seed/task.model.js"
+          , "description": ":)"
+          , "template": "index"
+          , "render-file": false }
+      ]
+    }
+  ]
+}
