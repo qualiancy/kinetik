@@ -18,9 +18,10 @@ describe('storage integrations', function () {
     var store = new RedisStore({ db: 2 });
 
     after(function (done) {
-      store.client.flushdb();
-      store.client.quit();
-      done();
+      store.client.flushdb(function () {
+        store.client.quit();
+        done();
+      });
     });
 
     storeTests(store);

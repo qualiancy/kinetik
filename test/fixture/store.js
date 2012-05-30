@@ -1,9 +1,11 @@
 var chai = require('chai')
+  , chaiSpies = require('chai-spies')
   , should = chai.should();
 
-var kinetik = require('../..');
+chai.use(chaiSpies);
 
-var Seed = require('seed');
+var kinetik = require('../..')
+  , Seed = require('seed');
 
 module.exports = function (store) {
   var queue;
@@ -36,4 +38,65 @@ module.exports = function (store) {
     });
   });
 
+  it('should emit success for successful execution', function (done) {
+    var data = { hello: 'universe' }
+      , spy = chai.spy(function (job, next) {
+          job.should.be.an('object');
+          job.should.have.property('id');
+          job.should.have.property('data')
+            .and.deep.equal(data);
+          //job.should.have.property('progress')
+          //  .and.be.a('function');
+          process.nextTick(next);
+        });
+
+    queue
+      .define('task success')
+      .tag('task success')
+      .on('completed', function (job) {
+        job.get('task').should.equal('task success');
+        job.get('data').should.deep.equal(data);
+        job.get('status').should.equal('completed');
+        should.not.exist(job.get('error'));
+        spy.should.have.been.called.once;
+        done();
+      })
+      .action(spy);
+
+    queue.create('task success', data);
+    queue.process([ 'task success' ]);
+  });
+
+  it('should emit error for failed execution', function (done) {
+    var data = { hello: 'universe' }
+      , spy = chai.spy(function (job, next) {
+          job.should.be.an('object');
+          job.should.have.property('id');
+          job.should.have.property('data')
+            .and.deep.equal(data);
+          //job.should.have.property('progress')
+          //  .and.be.a('function');
+          process.nextTick(function () {
+            next(Error('bad formatting'));
+          });
+        });
+
+    var task = queue
+      .define('task error')
+      .tag('task error')
+      .on('error', function (err, job) {
+        job.get('data').should.deep.equal(data);
+        job.get('task').should.equal('task error');
+        job.get('error').should.equal('bad formatting');
+        job.get('status').should.equal('failed');
+        err.should.be.instanceof(Error);
+        err.message.should.equal('bad formatting');
+        spy.should.have.been.called.once;
+        done();
+      })
+      .action(spy);
+
+    queue.create('task error', data);
+    queue.process([ 'task error' ]);
+  });
 };
