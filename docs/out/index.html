@@ -25,6 +25,7 @@
           <div id="defining_tasks" class="head"><a href="#header-defining_tasks" class="scroll">Defining Tasks</a></div>
           <div id="tag" class="section defining_tasks"><a href="#defining_tasks-tag" class="scroll">tag</a></div>
           <div id="action" class="section defining_tasks"><a href="#defining_tasks-action" class="scroll">action</a></div>
+          <div id="desc" class="section defining_tasks"><a href="#defining_tasks-desc" class="scroll">desc</a></div>
           <div id="timeout" class="section defining_tasks"><a href="#defining_tasks-timeout" class="scroll">timeout</a></div>
         </nav>
       </header>
@@ -119,7 +120,7 @@ environment variable matches defined <code>env</code>.
 </div>
         </div>
         <div id="creating_a_queue-process" class="segment">
-          <div class="summary"><h3>process (tags, intervale)</h3>
+          <div class="summary"><h3>process (tags, [interval])</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array &#125;</span><span class="name">tags</span><span class="desc">in order of priority</span></li>
@@ -344,6 +345,17 @@ database and asyncronous flow control module:
     }, done);
   });
 });</code></pre>
+</div>
+        </div>
+        <div id="defining_tasks-desc" class="segment">
+          <div class="summary"><h3>.desc (description)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">description</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Provide a short description about the task being
+defined. This can be used by middleware.
+</p>
 </div>
         </div>
         <div id="defining_tasks-timeout" class="segment">
