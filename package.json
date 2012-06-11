@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "seed": "0.3.x",
-    "electron": "0.1.x",
+    "electron": "0.2.x",
     "orchid": "0.0.x",
     "debug": "*"
   },
