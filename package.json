@@ -1,29 +1,30 @@
 {
-  "author": "Jake Luer <jake@alogicalparadox.com>",
-  "name": "kinetik",
-  "description": "A tag-based job queue backed by Seed.",
-  "version": "0.0.11",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/qualiancy/kinetik.git"
-  },
-  "main": "./index",
-  "scripts": {
-    "test": "make test"
-  },
-  "engines": {
-    "node": ">= 0.6.0"
-  },
-  "dependencies": {
-    "drip": "0.2.x",
-    "seed": "0.3.x",
-    "seed-redis": "0.4.x",
-    "debug": "*"
-  },
-  "devDependencies": {
-    "mocha": "*",
-    "chai": "*",
-    "chai-spies": "*"
-  },
-  "optionalDependencies": {}
+    "author": "Jake Luer <jake@alogicalparadox.com>"
+  , "name": "kinetik"
+  , "description": "A tag-based job queue backed by Seed."
+  , "version": "0.0.11"
+  , "repository": {
+        "type": "git"
+      , "url": "git://github.com/qualiancy/kinetik.git"
+    }
+  , "main": "./index"
+  , "scripts": {
+        "test": "make test"
+    }
+  , "engines": {
+        "node": ">= 0.6.0"
+    }
+  , "dependencies": {
+        "seed": "0.4.x"
+      , "electron": "0.2.x"
+      , "debug": "*"
+    }
+  , "devDependencies": {
+        "mocha": "*"
+      , "chai": "*"
+      , "chai-spies": "*"
+      , "seed-redis": "*"
+      , "seed-mongodb": "*"
+    }
+  , "optionalDependencies": {}
 }

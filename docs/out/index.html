@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Kinetik</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Kinetik</h1>
+        <nav>
+          <div id="installation" class="head"> <a href="#header-installation" class="scroll">Installation</a></div>
+          <div id="creating_a_queue" class="head"><a href="#header-creating_a_queue" class="scroll">Creating a Queue</a></div>
+          <div id="tags" class="section creating_a_queue"><a href="#creating_a_queue-tags" class="scroll">tags</a></div>
+          <div id="configure" class="section creating_a_queue"><a href="#creating_a_queue-configure" class="scroll">configure</a></div>
+          <div id="use" class="section creating_a_queue"><a href="#creating_a_queue-use" class="scroll">use</a></div>
+          <div id="define" class="section creating_a_queue"><a href="#creating_a_queue-define" class="scroll">define</a></div>
+          <div id="create" class="section creating_a_queue"><a href="#creating_a_queue-create" class="scroll">create</a></div>
+          <div id="process" class="section creating_a_queue"><a href="#creating_a_queue-process" class="scroll">process</a></div>
+          <div id="fetch" class="section creating_a_queue"><a href="#creating_a_queue-fetch" class="scroll">fetch</a></div>
+          <div id="cancel" class="section creating_a_queue"><a href="#creating_a_queue-cancel" class="scroll">cancel</a></div>
+          <div id="clean" class="section creating_a_queue"><a href="#creating_a_queue-clean" class="scroll">clean</a></div>
+          <div id="defining_tasks" class="head"><a href="#header-defining_tasks" class="scroll">Defining Tasks</a></div>
+          <div id="tag" class="section defining_tasks"><a href="#defining_tasks-tag" class="scroll">tag</a></div>
+          <div id="action" class="section defining_tasks"><a href="#defining_tasks-action" class="scroll">action</a></div>
+          <div id="desc" class="section defining_tasks"><a href="#defining_tasks-desc" class="scroll">desc</a></div>
+          <div id="timeout" class="section defining_tasks"><a href="#defining_tasks-timeout" class="scroll">timeout</a></div>
+        </nav>
+      </header>
+      <section id="content">
+        <div id="header-installation" class="segment">
+          <div class="description"><blockquote>
+<p>of, relating to, or resulting from motion
+
+</p>
+</blockquote>
+<h2>Features</h2>
+<ul>
+<li>chainable api</li>
+<li>middleware capable</li>
+<li>based on <a href="https://github.com/qualiancy/seed">seed</a></li>
+<li>works with numerous data storages</li>
+</ul>
+<h2>Installation</h2>
+<p><code>kinetik</code> package is available for node through <a href="http://npmjs.org">npm</a>.
+
+</p>
+<pre><code class="lang-bash">npm install kinetik</code></pre>
+</div>
+        </div>
+        <div id="header-creating_a_queue" class="segment">
+          <div class="summary"><h2>Creating a Queue</h2>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">options</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Queue constructor is the main interaction point for the
+kinetik module. Accepts a number of options with sane defaults.
+
+</p>
+<ul>
+<li>interval [10s]: wait time between empty process attempts</li>
+<li>store: use a constructed seed storage engine</li>
+</ul>
+</div>
+        </div>
+        <div id="creating_a_queue-tags" class="segment">
+          <div class="summary"><h3>tags</h3>
+</div>
+          <ul class="tags">
+          </ul>
+          <div class="description"><p>Get a list of all of the tags for tasks
+attached to the current queue instance.
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-configure" class="segment">
+          <div class="summary"><h3>configure ([env], fn)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">environment</span><span class="desc">to check (optional)</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">function</span><span class="desc">execute if match</span></li>
+          </ul>
+          <div class="description"><p>Run certain functions only if NODE_ENV process
+environment variable matches defined <code>env</code>.
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-use" class="segment">
+          <div class="summary"><h3>use (fn)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">middleware</span><span class="desc">loader</span></li>
+          </ul>
+          <div class="description"><p>Experimental interface for plugins
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-define" class="segment">
+          <div class="summary"><h3>define (name)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">name</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Creates a new task definition for this queue.
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-create" class="segment">
+          <div class="summary"><h3>create (task, data)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">task</span><span class="desc"></span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">data</span><span class="desc">to pass to runner</span></li>
+          </ul>
+          <div class="description"><p>Queue up a job for a given task. Use the given data.
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-process" class="segment">
+          <div class="summary"><h3>process (tags, [interval])</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array &#125;</span><span class="name">tags</span><span class="desc">in order of priority</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String | Number &#125;</span><span class="name">time</span><span class="desc">to wait between checks</span></li>
+          </ul>
+          <div class="description"><p>Start a process loop for a given Array of tags.
+
+</p>
+<pre><code>queue.process(<span class="string">'urgent'</span>); <span class="comment">// use default interval (10s)</span>
+queue.process(<span class="string">'long'</span>, <span class="number">1000</span>); <span class="comment">// check every second</span>
+queue.process(<span class="string">'cleanup'</span>, <span class="string">'10m'</span>); <span class="comment">// check every 10 minutes</span></code></pre>
+</div>
+        </div>
+        <div id="creating_a_queue-fetch" class="segment">
+          <div class="summary"><h3>fetch (query, callback)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Object &#125;</span><span class="name">query</span><span class="desc"></span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc">will return params err||null, graph.</span></li>
+          </ul>
+          <div class="description"><p>Allows for direct access to Seed Graph of of jobs for
+data manipulation. Useful if you want to retrieve jobs
+that were previously scheduled or included. Also, used
+internally for various tasks, such as cleaning or stats.
+
+</p>
+<p>The returned <code>jobs</code> parameter in the callback is a Seed.Hash
+instance. Here is a sample map/reduce pattern that will get
+the count of queued jobs by task.
+
+</p>
+<pre><code>queue.fetch({ status: <span class="string">'complete'</span> }, <span class="function"><span class="keyword">function</span> <span class="params">(err, jobs)</span> {</span>
+  <span class="keyword">var</span> results = jobs.mapReduce(
+      <span class="function"><span class="keyword">function</span> <span class="title">mapFn</span> <span class="params">(key, value, emit)</span> {</span>
+        <span class="keyword">var</span> task = value.get(<span class="string">'task'</span>);
+        emit(task, <span class="number">1</span>);
+      }
+    , <span class="function"><span class="keyword">function</span> <span class="title">reduceFn</span> <span class="params">(key, value)</span> {</span>
+        <span class="keyword">return</span> value.length;
+      }
+  );
+
+  results.each(<span class="function"><span class="keyword">function</span> <span class="params">(value, key, index)</span> {</span>
+    console.log(<span class="string">'The task %s has [%d] queued jobs.'</span>, key, value);
+  });
+});</code></pre>
+</div>
+        </div>
+        <div id="creating_a_queue-cancel" class="segment">
+          <div class="summary"><h3>cancel (job, callback)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Job | ObjectId &#125;</span><span class="name">job</span><span class="desc">instance or id</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc">upon compltion</span></li>
+          </ul>
+          <div class="description"><p>Cancel a specific job. Accepts either job
+instance of Seed.Model or id of job.
+</p>
+</div>
+        </div>
+        <div id="creating_a_queue-clean" class="segment">
+          <div class="summary"><h3>clean (tags, callback)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Array &#125;</span><span class="name">tags</span><span class="desc">(optional)</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Remove all complete tasks for given (optional)
+tags. Will call callback upon completion. If no
+tags are specified, all tags will be cleaned.
+</p>
+</div>
+        </div>
+        <div id="header-defining_tasks" class="segment">
+          <div class="summary"><h2>Defining Tasks</h2>
+</div>
+          <ul class="tags">
+          </ul>
+          <div class="description"><p>When using the <code>define</code> method from your Queue, you will
+be returned a new instance of a <code>Task</code>. In Kinetik, the purpose
+of a task is to define how to process a given job.
+
+</p>
+<h5>Necessities</h5>
+<p>Each task is created with a unique <code>name</code> that will be referenced
+when you create jobs. In addition, a task should also be given a
+<code>tag</code> and an <code>action</code>.
+
+</p>
+<p>The <code>tag</code> is used to group the jobs for the queue processor. These
+are arbitrary keywords and can be as simple as priorities, such as
+<code>normal</code> and <code>important</code> OR task groupings such as <code>messaging</code> and
+<code>dbAggregation</code>.
+
+</p>
+<p>The <code>action</code> is the function that is to be executed to process the job.
+Actions are asyncronous by nature and provide a number of helper
+methods (more later).
+
+</p>
+<blockquote>
+<p>Advanced Techniques: A <code>task</code> is a constructed Seed model that
+does not have a store attached to it.
+
+</p>
+</blockquote>
+<h5>Events</h5>
+<p>A task is also an event-emitter which will emit the following events
+for each job that is processed through a task.
+
+</p>
+<ul>
+<li><code>job::start</code> - (job) - on when a job starts is processing run</li>
+<li><code>job::complete</code> - (job) - on when a job has completed</li>
+<li><code>job::error</code> - (err, job) - on when a job has errored</li>
+<li><code>job::timeout</code> - (job) - on when a job has timed out</li>
+</ul>
+<p>In all of the events, the <code>job</code> parameter provided is a job
+model that can be updated and saved to your data store. This
+allows you the flexibility to:
+
+</p>
+<ul>
+<li>Provide your own re-queue methodology.</li>
+<li>Delete jobs that have been completed.</li>
+</ul>
+<h5>Defining Tasks</h5>
+<p>Defining a task can be done using chaining.
+
+</p>
+<pre><code><span class="keyword">var</span> task = queue.define(<span class="string">'email::welcome'</span>)
+  .tag(<span class="string">'messaging'</span>)
+  .on(<span class="string">'job::complete'</span>, jobCompleteFn)
+  .action(doSomething);</code></pre>
+<p>You can use the following API methods to further control yours tasks..
+</p>
+</div>
+        </div>
+        <div id="defining_tasks-tag" class="segment">
+          <div class="summary"><h3>tag (tag)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">tag</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Tag a task as belonging to a given tag. All tasks
+require a tag to be found by the queue processor, but
+tasks will use <code>default</code> until this is defined.
+
+</p>
+<pre><code>task.tag(<span class="string">'urguent'</span>)</code></pre>
+</div>
+        </div>
+        <div id="defining_tasks-action" class="segment">
+          <div class="summary"><h3>action (fn)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">action</span><span class="desc">function</span></li>
+          </ul>
+          <div class="description"><p>Provides an action for a given task. When executed,
+the action will receive two parameters:
+
+</p>
+<ul>
+<li><code>job</code> - <strong>{Object}</strong> - encapsulats everything about a job</li>
+<li><code>done</code> - <strong>{Function}</strong> - indicates when the action has completed</li>
+</ul>
+<p>In the <code>job</code> object, the following properties are available.
+
+</p>
+<ul>
+<li><code>id</code> - <strong>{Number|String}</strong> - the id of the job according to kinetik</li>
+<li><code>data</code> - <strong>{Object}</strong> - data attributes passed on job creation</li>
+<li><code>progress</code> - <strong>{Function}</strong> - indicate the progress of actions
+with multiple steps.</li>
+</ul>
+<p>If you want to mark the job as <code>errored</code> as opposed to
+<code>completed</code>, you can send a parameter to the done function.
+
+</p>
+<pre><code>done(<span class="string">'This job completed with an error.'</span>);
+done(<span class="keyword">new</span> Error(<span class="string">'This job completed with an error.'</span>);</code></pre>
+<p>If a string is provided it will be logged as the error message;
+if an object (such as an <code>Error</code>) is sent, kinetik will
+attempt to read the the object&#39;s <code>message</code> property as
+the failure reason.
+
+</p>
+<h5>Single-step Actions</h5>
+<p>For example, the following psuedo-code is using an arbitrary
+database and email delivery service:
+
+</p>
+<pre><code>task.action(<span class="function"><span class="keyword">function</span> <span class="params">(job, done)</span> {</span>
+  db.get(data.id, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span> {</span>
+    <span class="keyword">if</span> (!doc) <span class="keyword">return</span> done(data.id + <span class="string">' not found'</span>);
+    <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+    <span class="keyword">var</span> email = doc.get(<span class="string">'email'</span>);
+    email.send(email, <span class="string">'Hello Universe'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
+      <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+      done();
+    });
+  });
+});</code></pre>
+<h5>Multi-step Actions</h5>
+<p>If your action is completed using many steps and you wish to
+indicate what step you are on, the <code>job.progress</code> method
+can be used to mark the current progress of the action.
+
+</p>
+<p>For example, the following psuedo-code uses an arbitrary
+database and asyncronous flow control module:
+
+</p>
+<pre><code>task.action(<span class="function"><span class="keyword">function</span> <span class="params">(job, done)</span> {</span>
+  db.get(data.id, <span class="function"><span class="keyword">function</span> <span class="params">(err, frames)</span> {</span>
+    <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+    doSeries(frames, <span class="function"><span class="keyword">function</span> <span class="params">(frame, index, next)</span> {</span>
+      renderFrame(frame, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
+        job.progress(index, frames.length);
+        next(err);
+      });
+    }, done);
+  });
+});</code></pre>
+</div>
+        </div>
+        <div id="defining_tasks-desc" class="segment">
+          <div class="summary"><h3>.desc (description)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">description</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Provide a short description about the task being
+defined. This can be used by middleware.
+</p>
+</div>
+        </div>
+        <div id="defining_tasks-timeout" class="segment">
+          <div class="summary"><h3>.timeout (duration)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number | String &#125;</span><span class="name">duration</span><span class="desc"></span></li>
+          </ul>
+          <div class="description"><p>Provides a timeout duration for the action. If this
+time length has been reached an action will be marked
+as <code>errored</code> citing that it has timed-out. If no <code>timeout</code>
+is defined, an action can run indefinately.
+
+</p>
+<pre><code>task.timeout(<span class="number">10000</span>); <span class="comment">// 10 seconds</span>
+task.timeout(<span class="string">'1m'</span>); <span class="comment">// 1 minute</span></code></pre>
+</div>
+        </div>
+      </section>
+      <footer>
+      </footer>
+    </div>
+  </body>
+</html>

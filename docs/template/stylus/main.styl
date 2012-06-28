@@ -1,0 +1,96 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
+@import url(http://fonts.googleapis.com/css?family=Oxygen);
+
+@import 'nib'
+@import 'fez'
+
+global-reset()
+fez-reset()
+
+body
+  font 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif
+  font-weight 300
+  padding 50px
+  color #777
+
+h1, h2
+  font-family Oxygen, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif 
+
+h2
+  margin-top 30px
+  padding-bottom 10px
+  border-bottom 1px solid #ccc
+
+h1, h2, h4, h5, h6
+  color #222
+  font-weight bold
+
+h3
+  color #39C
+
+a
+  color #cc3300
+  text-decoration none
+
+code, pre
+  font-family Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
+  color #333;
+  font-size 12px
+
+ul
+  margin-bottom 1.5em
+  list-style disc
+  padding-left 40px
+
+pre
+  padding 8px 15px
+  border-radius 5px
+  overflow-x auto
+  background #F8F8F8
+  border 1px solid #E5E5E5
+  margin-bottom 1.5em
+
+ul.tags
+  font-size 12px
+  li.tag
+    span
+      margin-right 5px
+    span.type
+      font-weight bold
+    span.types
+      font-style italic
+
+.wrapper
+  width 860px
+  margin 0px auto
+
+header
+  width 270px
+  float left
+  position fixed
+  text-align right
+
+section#content
+  width 500px
+  float right
+
+nav
+  text-align right
+
+  .active
+    font-weight bold
+
+  .section
+    display none
+
+  .head > a
+    color #222
+  .section > a
+    color #39C
+
+footer
+  width 270px
+  position fixed
+  bottom 50px
+
+@import 'code'
