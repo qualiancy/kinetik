@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700");
-@import url("http://fonts.googleapis.com/css?family=Oxygen");
+@import url("https://fonts.googleapis.com/css?family=Oxygen");
 html,
 body,
 div,
@@ -138,36 +138,88 @@ body {
   font: 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-weight: 300;
   padding: 50px;
-  color: #777;
+  background-color: #111314;
+  background-image: url("../img/bg.png");
+  background-attachment: fixed;
+  color: #b7b7b7;
 }
 h1,
 h2 {
-  font-family: Oxygen, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Oxygen', sans-serif;
+  color: #696866;
+}
+h1 a,
+h2 a {
+  color: #696866;
 }
 h2 {
   margin-top: 30px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #3c5959;
+  color: #d9dbca;
 }
-h1,
-h2,
+h3,
 h4,
 h5,
 h6 {
-  color: #222;
+  color: #d9dbca;
   font-weight: bold;
 }
 h3 {
-  color: #39c;
+  color: #d9dbca;
 }
 a {
-  color: #c30;
+  color: #fc4702;
   text-decoration: none;
+}
+a.fork {
+  display: block;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #c64a28), color-stop(1, #ad4123));
+  background: -webkit-linear-gradient(top, #c64a28 0%, #ad4123 100%);
+  background: -moz-linear-gradient(top, #c64a28 0%, #ad4123 100%);
+  background: -o-linear-gradient(top, #c64a28 0%, #ad4123 100%);
+  background: -ms-linear-gradient(top, #c64a28 0%, #ad4123 100%);
+  background: linear-gradient(top, #c64a28 0%, #ad4123 100%);
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
+  border: 1px solid #8a341c;
+  color: #fff;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 10px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  text-shadow: 1px 1px 0px #792d18;
+}
+a.fork:hover {
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0, #d65936), color-stop(1, #c64a28));
+  background: -webkit-linear-gradient(top, #d65936 0%, #c64a28 100%);
+  background: -moz-linear-gradient(top, #d65936 0%, #c64a28 100%);
+  background: -o-linear-gradient(top, #d65936 0%, #c64a28 100%);
+  background: -ms-linear-gradient(top, #d65936 0%, #c64a28 100%);
+  background: linear-gradient(top, #d65936 0%, #c64a28 100%);
+}
+a.fork h2 {
+  border-bottom: 0px;
+  margin: 0px;
+  color: #fff;
+  padding: 0px;
+}
+a.fork .project {
+  font-size: 16px;
+}
+em {
+  font-style: italic;
+}
+strong {
+  font-weight: bold;
 }
 code,
 pre {
-  font-family: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color: #333;
+  font-family: Consolas, Menlo, "Liberation Mono", Courier, monospace;
+  color: #d9dbca;
   font-size: 12px;
 }
 ul {
@@ -177,13 +229,28 @@ ul {
 }
 pre {
   padding: 8px 15px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   overflow-x: auto;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
+  background: #111314;
   margin-bottom: 1.5em;
+  -webkit-box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
+  -moz-box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
+  box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
+}
+.segment {
+  margin-bottom: 60px;
+  position: relative;
+}
+.segment .para {
+  position: absolute;
+  left: -20px;
+  font-size: 14px;
+  width: 20px;
+  display: none;
+  opacity: 0;
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}
+.segment .para a {
+  color: #fc4702;
 }
 ul.tags {
   font-size: 12px;
@@ -209,6 +276,7 @@ header {
 }
 section#content {
   width: 500px;
+  padding-top: 65px;
   float: right;
 }
 nav {
@@ -221,10 +289,10 @@ nav .section {
   display: none;
 }
 nav .head > a {
-  color: #222;
+  color: #aaa;
 }
 nav .section > a {
-  color: #39c;
+  color: #64beb0;
 }
 footer {
   width: 270px;
@@ -238,7 +306,7 @@ pre .comment,
 pre .template_comment,
 pre .diff .header,
 pre .javadoc {
-  color: #998;
+  color: #a3a87f;
   font-style: italic;
 }
 pre .keyword,
@@ -247,8 +315,7 @@ pre .winutils,
 pre .javascript .title,
 pre .lisp .title,
 pre .subst {
-  color: #000;
-  font-weight: bold;
+  color: #64beb0;
 }
 pre .number,
 pre .hexcolor {
@@ -258,11 +325,11 @@ pre .string,
 pre .tag .value,
 pre .phpdoc,
 pre .tex .formula {
-  color: #d14;
+  color: #93be64;
 }
 pre .title,
 pre .id {
-  color: #900;
+  color: #ddd;
   font-weight: bold;
 }
 pre .javascript .title,

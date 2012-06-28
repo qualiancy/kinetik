@@ -1,11 +1,16 @@
 extends layout
 
 block header
-  h1= file.title
+  h1: a.scroll(href='#top')= file.title
+  .tagline!= site.description 
+  a.fork(href='https://github.com/' + site.ghuser + '/' + site.ghproject)
+    h2 View the Project on GitHub
+    .project #{site.ghuser}/#{site.ghproject}
+
 
 block nav
   div(id='installation', class='head') 
-    a.scroll(href='#header-installation') Installation
+    a.scroll(href='#header-installation') Quick Start
   for codeFile in files.code
     - var lastHeader = ''
     for comment in codeFile.prepared
@@ -18,6 +23,7 @@ block nav
 
 block content
   #header-installation.segment
+    .para: a(href='#header-installation') &para;
     .description!= file.prepared
   for codeFile in files.code
     - var lastPrimary = ''
@@ -31,6 +37,7 @@ block content
           - if (tag.type === 'name')
             - id = lastPrimary + '-' + tag.string
         .segment(id=id)
+          .para: a(href='#' + id) &para;
           .summary!= comment.description.summary
           ul.tags
             each tag in comment.tags
