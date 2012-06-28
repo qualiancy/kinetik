@@ -39,13 +39,4 @@ describe('job model', function () {
     });
   });
 
-  it('can be cancelled', function (done) {
-    job.get('status').should.equal('queued');
-    job.cancel(function (err) {
-      should.not.exist(err);
-      job.get('status').should.equal('cancelled');
-      done();
-    });
-  });
-
 });
