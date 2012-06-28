@@ -42,15 +42,13 @@ module.exports = function (store) {
           job.should.have.property('id');
           job.should.have.property('data')
             .and.deep.equal(data);
-          //job.should.have.property('progress')
-          //  .and.be.a('function');
           process.nextTick(next);
         });
 
     queue
       .define('task success')
       .tag('task success')
-      .on('complete', function (job) {
+      .on('completed', function (job) {
         job.get('task').should.equal('task success');
         job.get('data').should.deep.equal(data);
         job.get('status').should.equal('completed');
@@ -71,8 +69,6 @@ module.exports = function (store) {
           job.should.have.property('id');
           job.should.have.property('data')
             .and.deep.equal(data);
-          //job.should.have.property('progress')
-          //  .and.be.a('function');
           process.nextTick(function () {
             var err = new Error('bad formatting');
             err.code = 'EBADFORMATTING';
@@ -128,4 +124,76 @@ module.exports = function (store) {
     queue.create('task timeout', data);
     queue.process([ 'task timeout' ]);
   });
+
+  it('can emit progress for a multistep job', function (done) {
+    var data = { hello: 'universe' }
+      , spy = chai.spy(function (job, next) {
+          job.should.be.an('object');
+          job.should.have.property('id');
+          job.should.have.property('data')
+            .and.deep.equal(data);
+          job.should.have.property('progress').a('function');
+          var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+          Seed.async.forEachSeries(arr, function (n, cb) {
+            setTimeout(function () {
+              job.progress(n, arr.length);
+              cb();
+            }, 10);
+          }, next);
+        })
+      , log = chai.spy(function (job, curr, total) {
+          curr.should.be.a('number').below(11);
+          total.should.equal(10);
+        });
+
+    var task = queue
+      .define('task progress')
+      .tag('task progress')
+      .on('progress', log)
+      .on('completed', function (job) {
+        log.should.have.been.called.exactly(10);
+        done();
+      })
+      .action(spy);
+
+    queue.create('task progress', data);
+    queue.process([ 'task progress' ]);
+  });
+
+  it('can emit log on log write', function (done) {
+    var data = { hello: 'universe' }
+      , spy = chai.spy(function (job, next) {
+          job.should.be.an('object');
+          job.should.have.property('id');
+          job.should.have.property('data')
+            .and.deep.equal(data);
+          job.should.have.property('log').a('function');
+          var arr = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+          Seed.async.forEachSeries(arr, function (n, cb) {
+            setTimeout(function () {
+              job.log('working on ' + n);
+              cb();
+            }, 10);
+          }, next);
+        })
+      , log = chai.spy(function (job, log) {
+          log.should.be.an('object');
+          log.type.should.equal('log');
+          log.get('message').should.be.a('string');
+        });
+
+    var task = queue
+      .define('task log')
+      .tag('task log')
+      .on('log', log)
+      .on('completed', function (job) {
+        log.should.have.been.called.exactly(12);
+        done();
+      })
+      .action(spy);
+
+    queue.create('task log', data);
+    queue.process([ 'task log' ]);
+  });
+
 };
