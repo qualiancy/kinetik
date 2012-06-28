@@ -1,5 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
-@import url(http://fonts.googleapis.com/css?family=Oxygen);
+@import url(https://fonts.googleapis.com/css?family=Oxygen);
 
 @import 'nib'
 @import 'fez'
@@ -7,34 +7,76 @@
 global-reset()
 fez-reset()
 
+colorfg = #AD4123
+colorbg = #111314
+colorhref = #FC4702
+
+coloraccent = #2D3031
+
 body
   font 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif
   font-weight 300
   padding 50px
-  color #777
+  background-color colorbg
+  background-image url('../img/bg.png') 
+  background-attachment fixed
+  color lighten(#AAA, 15%)
 
 h1, h2
-  font-family Oxygen, Lato, "Helvetica Neue", Helvetica, Arial, sans-serif 
+  font-family 'Oxygen', sans-serif 
+  color #696866
+  a
+    color #696866
 
 h2
   margin-top 30px
   padding-bottom 10px
-  border-bottom 1px solid #ccc
+  border-bottom 1px solid #3C5959
+  color #D9DBCA
 
-h1, h2, h4, h5, h6
-  color #222
+h3, h4, h5, h6
+  color #D9DBCA
   font-weight bold
 
 h3
-  color #39C
+  color #D9DBCA
 
 a
-  color #cc3300
+  color colorhref
   text-decoration none
 
+a.fork
+  display block
+  background linear-gradient(top ,lighten(colorfg, 10%), colorfg)
+  box-shadow 1px 1px 5px rgba(0,0,0,30%)
+  border 1px solid darken(colorfg, 20%)
+  color #fff
+  margin-top 30px
+  margin-bottom 30px
+  padding 10px
+  border-radius 5px
+  text-shadow 1px 1px 0px darken(colorfg, 30%)
+
+  &:hover
+    background linear-gradient(top ,lighten(colorfg, 20%), lighten(colorfg, 10%))
+
+  h2
+    border-bottom 0px
+    margin 0px
+    color #fff
+    padding 0px
+  .project
+    font-size 16px
+
+em
+  font-style italic
+
+strong
+  font-weight bold
+  
 code, pre
-  font-family Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;
-  color #333;
+  font-family Consolas,Menlo,"Liberation Mono",Courier,monospace
+  color #D9DBCA
   font-size 12px
 
 ul
@@ -44,11 +86,24 @@ ul
 
 pre
   padding 8px 15px
-  border-radius 5px
   overflow-x auto
-  background #F8F8F8
-  border 1px solid #E5E5E5
+  background #111314 // #F8F8F8
   margin-bottom 1.5em
+  box-shadow 1px 0 2px #0D0D0D,-1px 0 2px #0D0D0D,0 2px 2px #0D0D0D,0 -1px 2px #0D0D0D,inset -1px -1px 0 black,inset 1px 1px 0 lighten(#0D0D0D, 5%)
+
+.segment
+  margin-bottom 60px 
+  position relative
+
+  .para
+    position absolute
+    left -20px
+    font-size 14px
+    width 20px
+    display none
+    opacity 0
+    a
+      color colorhref
 
 ul.tags
   font-size 12px
@@ -72,6 +127,7 @@ header
 
 section#content
   width 500px
+  padding-top 65px
   float right
 
 nav
@@ -84,9 +140,9 @@ nav
     display none
 
   .head > a
-    color #222
+    color #AAA
   .section > a
-    color #39C
+    color #64BEB0
 
 footer
   width 270px

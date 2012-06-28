@@ -9,8 +9,8 @@ on a given set of tags.
 
 ##### What is Seed?
 
-[Seed](http://github.com/qualiancy/seed), which stands for _storage-agnostic, event emitting datasets_, 
-is a library of components that provide a common API for working with data, no matter the source. 
+[Seed](http://github.com/qualiancy/seed), is a library of components that provide a common API 
+for working with JSON-style documents, 
 
 By using Seed, a Kinetik queue can be stored using any of Seed's storage adapters, including
 [Redis](https://github.com/qualiancy/seed-redis) or [MongoDB](https://github.com/qualiancy/seed-mongodb).

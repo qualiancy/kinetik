@@ -1,5 +1,23 @@
 $(document).ready(function() {
-  // :D
+  // :)
+
+  $('.segment').mouseenter(function (e) {
+    var $para = $(this).find('.para');
+    $para.css({
+      display: 'block'
+    });
+
+    $para
+      .stop()
+      .animate({ 'opacity': 1 }, 300);
+  });
+
+  $('.segment').mouseleave(function (e) {
+    var $para = $(this).find('.para');
+    $para
+      .stop()
+      .animate({ 'opacity': 0 }, 300);
+  });
 
   var scrolling = false
     , lastSection = 'installation';
@@ -7,29 +25,35 @@ $(document).ready(function() {
   $('a.scroll').click(function (e) {
     e.preventDefault();
 
-    var section = $(this).attr('href')
-      , $scrollto = $(section);
-
+    var section = $(this).attr('href');
     scrolling = true;
-    $('html,body').animate({
-      scrollTop: $scrollto.offset().top - 15
-    }, function () {
-      setTimeout(function () {
-        lastSection = section.substr(1);
-        setActiveMenu();
-        scrolling = false;
-      }, 300);
-    });
+    if (section == '#top') {
+      $('html,body').animate({
+        scrollTop: 0
+      }, function () {
+        setTimeout(function () {
+          lastSection = 'header-installation';
+          setActiveMenu();
+          scrolling = false;
+        }, 300);
+      });
+    } else {
+      var $scrollto = $(section);
+      $('html,body').animate({
+        scrollTop: $scrollto.offset().top - 15
+      }, function () {
+        setTimeout(function () {
+          lastSection = section.substr(1);
+          setActiveMenu();
+          scrolling = false;
+        }, 300);
+      });
+    }
   });
 
   var panelTops = {}
+    , theTimer;
 
-  $('.segment').each(function(index) {
-    var id = $(this).attr('id');
-    panelTops[id] = $(this).offset().top;
-  });
-
-  console.log(panelTops);
 
   function detectActiveMenu() {
     if (scrolling) return;
@@ -53,8 +77,6 @@ $(document).ready(function() {
     var info = lastSection.split('-')
       , isHeader = (info[0] == 'header') ? true : false
       , primary = (isHeader) ? info[1] : info[0];
-
-    console.log(isHeader, primary);
 
     $('nav > div').removeClass('active');
     if (isHeader) {
@@ -96,12 +118,24 @@ $(document).ready(function() {
   }
 
   setTimeout(function () {
+
+    $('.segment').each(function(index) {
+      var id = $(this).attr('id');
+      panelTops[id] = $(this).offset().top;
+    });
+
     detectActiveMenu();
 
     // this handles the document scroll event
     $(document).scroll(function(e) {
       if (!scrolling) detectActiveMenu();
+      if (!theTimer) {
+        theTimer = setTimeout(function () {
+          detectActiveMenu();
+          theTimer = null;
+        }, 1000);
+      }
     });
-  }, 500);
+  }, 2000);
 
 });
