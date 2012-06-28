@@ -14,13 +14,13 @@ module.exports = function (store) {
     queue = kinetik.createQueue(store, { interval: 50 });
   });
 
-  it('should have a store defined', function () {
+  it('can have a custom store defined', function () {
     should.exist(queue._store);
     queue._store.should.be.instanceof(Seed.Store);
     queue._store.should.deep.equal(store);
   });
 
-  it('should be able to define jobs', function (done) {
+  it('can define jobs', function (done) {
     queue.create('task:1', {
         test: true
       , hello: 'universe'
@@ -35,7 +35,7 @@ module.exports = function (store) {
     });
   });
 
-  it('should emit success for successful execution', function (done) {
+  it('can emit success for successful execution', function (done) {
     var data = { hello: 'universe' }
       , spy = chai.spy(function (job, next) {
           job.should.be.an('object');
@@ -64,7 +64,7 @@ module.exports = function (store) {
     queue.process([ 'task success' ]);
   });
 
-  it('should emit error for failed execution', function (done) {
+  it('can emit error for failed execution', function (done) {
     var data = { hello: 'universe' }
       , spy = chai.spy(function (job, next) {
           job.should.be.an('object');
@@ -81,11 +81,11 @@ module.exports = function (store) {
         });
 
     var task = queue
-      .define('task error')
-      .tag('task error')
-      .on('error', function (err, job) {
+      .define('task fail')
+      .tag('task fail')
+      .on('fail', function (err, job) {
         job.get('data').should.deep.equal(data);
-        job.get('task').should.equal('task error');
+        job.get('task').should.equal('task fail');
         job.get('error').should.deep.equal({
             message: 'bad formatting'
           , code: 'EBADFORMATTING'
@@ -98,7 +98,34 @@ module.exports = function (store) {
       })
       .action(spy);
 
-    queue.create('task error', data);
-    queue.process([ 'task error' ]);
+    queue.create('task fail', data);
+    queue.process([ 'task fail' ]);
+  });
+
+  it('can emit timeout for timed out exectution', function (done) {
+    var data = { hello: 'universe' }
+      , spy = chai.spy(function (job, next) {
+          job.should.be.an('object');
+          job.should.have.property('id');
+          job.should.have.property('data')
+            .and.deep.equal(data);
+          // not calling done
+        });
+
+    var task = queue
+      .define('task timeout')
+      .tag('task timeout')
+      .timeout(50)
+      .on('timeout', function (job) {
+        job.get('data').should.deep.equal(data);
+        job.get('task').should.equal('task timeout');
+        job.get('status').should.equal('timeout');
+        spy.should.have.been.called.once;
+        done();
+      })
+      .action(spy);
+
+    queue.create('task timeout', data);
+    queue.process([ 'task timeout' ]);
   });
 };
