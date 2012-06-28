@@ -42,7 +42,7 @@ describe('storage integrations', function () {
     });
 
     after(function (done) {
-      store.db.dropDatabase();
+      store._db.dropDatabase();
       store.close(done);
     });
 

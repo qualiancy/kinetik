@@ -11,7 +11,7 @@ module.exports = function (store) {
   var queue;
 
   before(function () {
-    queue = kinetik.createQueue(store, { interval: 50 });
+    queue = kinetik(store, { interval: 30 });
   });
 
   it('can have a custom store defined', function () {
