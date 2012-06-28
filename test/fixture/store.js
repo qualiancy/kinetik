@@ -11,10 +11,7 @@ module.exports = function (store) {
   var queue;
 
   before(function () {
-    queue = kinetik.createQueue({
-        interval: 50
-      , store: store
-    });
+    queue = kinetik.createQueue(store, { interval: 50 });
   });
 
   it('should have a store defined', function () {
@@ -53,7 +50,7 @@ module.exports = function (store) {
     queue
       .define('task success')
       .tag('task success')
-      .on('completed', function (job) {
+      .on('complete', function (job) {
         job.get('task').should.equal('task success');
         job.get('data').should.deep.equal(data);
         job.get('status').should.equal('completed');
@@ -77,7 +74,9 @@ module.exports = function (store) {
           //job.should.have.property('progress')
           //  .and.be.a('function');
           process.nextTick(function () {
-            next(Error('bad formatting'));
+            var err = new Error('bad formatting');
+            err.code = 'EBADFORMATTING';
+            next(err);
           });
         });
 
@@ -87,7 +86,10 @@ module.exports = function (store) {
       .on('error', function (err, job) {
         job.get('data').should.deep.equal(data);
         job.get('task').should.equal('task error');
-        job.get('error').should.equal('bad formatting');
+        job.get('error').should.deep.equal({
+            message: 'bad formatting'
+          , code: 'EBADFORMATTING'
+        });
         job.get('status').should.equal('failed');
         err.should.be.instanceof(Error);
         err.message.should.equal('bad formatting');
