@@ -294,10 +294,12 @@ nav .head > a {
 nav .section > a {
   color: #64beb0;
 }
-footer {
-  width: 270px;
-  position: fixed;
-  bottom: 50px;
+footer a.qual {
+  display: block;
+}
+footer a.qual .qlogo {
+  display: block;
+  margin: 100px auto;
 }
 pre code {
   display: block;
