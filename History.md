@@ -1,4 +1,86 @@
 
+0.1.0 / 2012-06-29 
+==================
+
+  * final doc commit
+  * readme
+  * doc tweaks and connect app for deployment
+  * add qualiancy logo to docs
+  * code cleanup
+  * create/cancel create log items
+  * add screenshots to docs
+  * clean up cli example for screenshots
+  * Merge branch 'feature/finish-docs'
+  * add section for middleware and resources
+  * docs for Task API
+  * support pages after code on docs
+  * Merge branch 'feature/cli'
+  * add clean command to cli
+  * code cleanup
+  * clean support tags/statuses and will also remove logs
+  * bug fix for jobs cli
+  * using seed async for jobs cli command
+  * clean in makefile
+  * a little bit of clean up
+  * Merge branch 'feature/progress'
+  * processor uses `push` instead of `save` to batch the logs + job changes on done
+  * refactor processor main function to handle log and progress events
+  * change msg to message in log schema
+  * remove job model cancel test
+  * wrong type for log model
+  * add log model/schema
+  * remove job `cancel` method
+  * Merge branch 'feature/docs'
+  * doc themeing
+  * Merge branch 'refactor/0.1.0'
+  * update docs
+  * all tests passing
+  * seed models/schemas seed 0.4.x compatible
+  * processor graph emits correct events
+  * update how construction arguments are handled
+  * support for job timeouts. Closes #8
+  * processor handles all types of success/failure events
+  * update deps
+  * job error store object which includes message and code
+  * bug fix in queue#cancel that would not allow cancel by id
+  * doc defining tasks
+  * electron 0.2.0 compatibility
+  * dependency update
+  * comments proofread
+  * refactor job cancelling
+  * cli middleware + example
+  * refactor main export as queue factory
+  * added task description
+  * adding docs
+  * comment updates
+  * ocd
+  * moved processing a job off of the job model and on to the processor
+  * refactor queue, removing public access to processor
+  * test integration mode for db tests
+  * refactored tests for to test execution on each storage
+  * timeout for tests at 10seconds
+  * added error to job schema
+  * refactor Job#process to emit events after job status has been saved
+  * fixture and tests for each type of store
+  * making redis store a dev dependancy
+  * queue no longer using RedisStore as default store
+  * job schema updated to use Type.ObjectId
+  * existing tests comply with seed async storage mechanisms
+  * Task comments for documentation
+  * Queue#processTask / Queue#processTag are now truly private functions
+  * comments for Queue#process
+  * update tests for Queue#fetch
+  * Queue#fetch now returns `jobs` hash in callback
+  * clean up configure
+  * Queue#use looks for a handle function
+  * test sets env var manually
+  * task modules supports timeout #8
+  * ocd
+  * schema supports delayed jobs
+  * drop drip to use Seed.EventEmitter (based on Drip)
+  * Added Job Schema
+  * rearrange file structure
+
 0.0.11 / 2012-05-25 
 ==================
 
