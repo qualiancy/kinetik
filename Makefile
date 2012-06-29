@@ -14,8 +14,11 @@ test-int:
 test-cov: lib-cov
 	@KINETIK_COV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
-lib-cov:
-	@rm -rf lib-cov
+lib-cov: clean
 	@jscoverage lib lib-cov
 
-.PHONY: test lib-cov test-cov
+clean:
+	@rm -rf lib-cov
+	@rm -f coverage.html
+
+.PHONY: test test-int lib-cov test-cov clean
