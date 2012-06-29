@@ -19,6 +19,6 @@ lib-cov: clean
 
 clean:
 	@rm -rf lib-cov
-	@rm coverage.html
+	@rm -f coverage.html
 
 .PHONY: test test-int lib-cov test-cov clean
