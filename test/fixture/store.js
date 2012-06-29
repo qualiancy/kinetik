@@ -62,6 +62,21 @@ module.exports = function (store) {
     queue.process([ 'task success' ]);
   });
 
+  it('can clean successfully completed jobs', function (done) {
+    queue.fetch({ status: 'completed' }, function (err, jobs) {
+      should.not.exist(err);
+      jobs.should.have.length(1);
+      queue.clean(function (err) {
+        should.not.exist(err);
+        queue.fetch({ status: 'completed' }, function (err, validate) {
+          should.not.exist(err);
+          validate.should.have.length(0);
+          done();
+        });
+      });
+    });
+  });
+
   it('can emit error for failed execution', function (done) {
     var data = { hello: 'universe' }
       , spy = chai.spy(function (job, next) {
@@ -196,4 +211,21 @@ module.exports = function (store) {
     queue.process([ 'task log' ]);
   });
 
+  it('can clean multiple tags of multiple statuses', function (done) {
+    var tags = [ 'task fail', 'task timeout', 'task progress', 'task log' ]
+      , status = [ 'failed', 'timeout', 'completed' ]
+      , query = { status: { $in: status }, task: { $in: tags } }
+    queue.fetch(query, function (err, jobs) {
+      should.not.exist(err);
+      jobs.should.have.length(4);
+      queue.clean({ tags: tags , status: status }, function (err) {
+        should.not.exist(err);
+        queue.fetch(query, function (err, validate) {
+          should.not.exist(err);
+          validate.should.have.length(0);
+          done();
+        });
+      });
+    });
+  });
 };
