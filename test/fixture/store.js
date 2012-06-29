@@ -48,7 +48,7 @@ module.exports = function (store) {
     queue
       .define('task success')
       .tag('task success')
-      .on('completed', function (job) {
+      .on('complete', function (job) {
         job.get('task').should.equal('task success');
         job.get('data').should.deep.equal(data);
         job.get('status').should.equal('completed');
@@ -165,7 +165,7 @@ module.exports = function (store) {
       .define('task progress')
       .tag('task progress')
       .on('progress', log)
-      .on('completed', function (job) {
+      .on('complete', function (job) {
         log.should.have.been.called.exactly(10);
         done();
       })
@@ -201,7 +201,7 @@ module.exports = function (store) {
       .define('task log')
       .tag('task log')
       .on('log', log)
-      .on('completed', function (job) {
+      .on('complete', function (job) {
         log.should.have.been.called.exactly(12);
         done();
       })

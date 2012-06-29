@@ -20,6 +20,15 @@ block nav
           div(id=lastHeader, class='head'): a.scroll(href='#header-' + lastHeader)= tag.string
         - else if (tag.type === 'name')
           div(id=tag.string, class='section ' + lastHeader): a.scroll(href='#' + lastHeader + '-' + tag.string)= tag.string
+  for section in files.sections
+    - group = section.href.split('/').filter(function (l) { return l.length ? true : false });
+    - if (group.length == 2)
+      div(id=group[1], class='head'): a.scroll(href='#header-' + group[1])= section.title
+      for subSection in files.sections
+        - subgroup = subSection.href.split('/').filter(function (l) { return l.length ? true : false });
+        if (subgroup.length !== 2 && ~subSection.href.indexOf(group[1])) 
+          div(id=subgroup[2], class='section ' + group[1]): a.scroll(href='#' + group[1] + '-' + subgroup[2])= subSection.title
+
 
 block content
   #header-installation.segment
@@ -56,3 +65,16 @@ block content
                   else
                     span.name #{tag.local}
           .description!= comment.description.body
+  - console.log(files)
+  for section in files.sections
+    - group = section.href.split('/').filter(function (l) { return l.length ? true : false });
+    - if (group.length == 2)
+      .segment(id='header-' + group[1])
+        .para: a(href='#header-' + group[1]) &para;
+        .description!= section.prepared
+      for subSection in files.sections
+        - subgroup = subSection.href.split('/').filter(function (l) { return l.length ? true : false });
+        if (subgroup.length !== 2 && ~subSection.href.indexOf(group[1])) 
+          .segment(id=group[1] + '-' + subgroup[2])
+            .para: a(href='#' + group[1] + '-' + subgroup[2]) &para;
+            .description!= subSection.prepared
