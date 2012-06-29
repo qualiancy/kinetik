@@ -1,6 +1,6 @@
 # Kinetik [![Build Status](https://secure.travis-ci.org/qualiancy/kinetik.png?branch=master)](http://travis-ci.org/qualiancy/kinetik)
 
-> A storage-agnostic, tag centric job queue for distributed applications powered by [Seed](http://github.com/qualiancy/seed).
+> A storage-agnostic, tag centric job queue for distributed applications.
 
 #### Features
 

@@ -20,12 +20,18 @@
     <div class="wrapper">
       <header>
         <h1><a href="#top" class="scroll">Kinetik</a></h1>
-        <div class="tagline"><p>A storage-agnostic, tag centric job queue for distributed applications.</p>
+        <div class="tagline"><p>A storage-agnostic, tag centric<br />job queue for distributed applications.</p>
 </div><a href="https://github.com/qualiancy/kinetik" class="fork">
           <h2>View the Project on GitHub</h2>
           <div class="project">qualiancy/kinetik</div></a>
         <nav>
-          <div id="installation" class="head"> <a href="#header-installation" class="scroll">Quick Start</a></div>
+          <div id="introduction" class="head"> <a href="#header-introduction" class="scroll">Introduction</a></div>
+          <div id="guide" class="head"><a href="#header-guide" class="scroll">Quick Start Guide</a></div>
+          <div id="install" class="section guide"><a href="#guide-install" class="scroll">Installation</a></div>
+          <div id="storage" class="section guide"><a href="#guide-storage" class="scroll">Choosing a Storage Engine</a></div>
+          <div id="tasks" class="section guide"><a href="#guide-tasks" class="scroll">Defining Tasks</a></div>
+          <div id="processor" class="section guide"><a href="#guide-processor" class="scroll">Starting the Processor</a></div>
+          <div id="jobs" class="section guide"><a href="#guide-jobs" class="scroll">Adding Jobs</a></div>
           <div id="queue_api" class="head"><a href="#header-queue_api" class="scroll">Queue API</a></div>
           <div id="tags" class="section queue_api"><a href="#queue_api-tags" class="scroll">tags</a></div>
           <div id="configure" class="section queue_api"><a href="#queue_api-configure" class="scroll">configure</a></div>
@@ -48,8 +54,8 @@
         </nav>
       </header>
       <section id="content">
-        <div id="header-installation" class="segment">
-          <div class="para"><a href="#header-installation">&para;</a></div>
+        <div id="header-introduction" class="segment">
+          <div class="para"><a href="#header-introduction">&para;</a></div>
           <div class="description"><h4>Features</h4>
 <ul>
 <li>storage-agnostic, thanks to <a href="https://github.com/qualiancy/seed">seed</a></li>
@@ -83,15 +89,26 @@ Seed API documentation is in the works, so hold steady.
 <a href="https://github.com/qualiancy/seed-mongodb">MongoDB</a>. Stay tuned for developments 
 regarding Riak and CouchDB. Need something else? The Seed Storage API will make it easy to 
 integrate with your storage engine of choice.
-
 </p>
-<h2>Quick Start Guide</h2>
-<h4>Installation</h4>
+</div>
+        </div>
+        <div id="header-guide" class="segment">
+          <div class="para"><a href="#header-guide">&para;</a></div>
+          <div class="description"><h2>Quick Start Guide</h2>
+</div>
+        </div>
+        <div id="guide-install" class="segment">
+          <div class="para"><a href="#guide-install">&para;</a></div>
+          <div class="description"><h3>Installation</h3>
 <p><code>kinetik</code> package is available for node through <a href="http://npmjs.org">npm</a>.
 
 </p>
 <pre><code class="lang-bash">npm install kinetik</code></pre>
-<h4>Choosing a Storage Engine</h4>
+</div>
+        </div>
+        <div id="guide-storage" class="segment">
+          <div class="para"><a href="#guide-storage">&para;</a></div>
+          <div class="description"><h3>Choosing a Storage Engine</h3>
 <p>The first step to using Kinetik is creating a new queue using one of Seed&#39;s storage engines.
 In this example we will use Redis with a default configuration.
 
@@ -104,7 +121,11 @@ for relevant configuration options. Using a store is optional. If one is not pro
 Kinetik will default to using an in memory store.
 
 </p>
-<h4>Defining Tasks</h4>
+</div>
+        </div>
+        <div id="guide-tasks" class="segment">
+          <div class="para"><a href="#guide-tasks">&para;</a></div>
+          <div class="description"><h3>Defining Tasks</h3>
 <p>In Kinetik, a task is a definition on how to process a given job. A job is a specific unit 
 of work, and will encapsulate all of the data passed to it.
 
@@ -138,7 +159,11 @@ complete the task.</li>
 <li>The <code>done</code> argument for the action accepts an error object as parameter. If an error 
 is sent, it will  flag job as <code>failed</code>, otherwise will flag as <code>complete</code>.</li>
 </ul>
-<h4>Starting the Processor</h4>
+</div>
+        </div>
+        <div id="guide-processor" class="segment">
+          <div class="para"><a href="#guide-processor">&para;</a></div>
+          <div class="description"><h3>Starting the Processor</h3>
 <p>In the same node process that has the tasks defined, you will need to start processing. 
 Processing is done per tag or group of tags.
 
@@ -160,9 +185,12 @@ task, it will return to processing notifications at the completion of the curren
 task. This behavior will occur even if their are more db tasks to accomplish. In that 
 case, there will be no pause. The pause will only happen after all tags assigned for 
 processing have been emptied.
-
 </p>
-<h4>Adding Jobs</h4>
+</div>
+        </div>
+        <div id="guide-jobs" class="segment">
+          <div class="para"><a href="#guide-jobs">&para;</a></div>
+          <div class="description"><h3>Adding Jobs</h3>
 <p>Finally, you will need to create jobs. 
 
 </p>
@@ -331,9 +359,14 @@ queue interval as the delay between checking for
 more jobs on the event of all tags being empty.
 
 </p>
-<pre><code>queue.process(<span class="string">'urgent'</span>); <span class="comment">// use default interval (10s)</span>
-queue.process(<span class="string">'long'</span>, <span class="number">1000</span>); <span class="comment">// check every second</span>
-queue.process([ <span class="string">'messaging'</span>, <span class="string">'dbaggr'</span> ], <span class="string">'10m'</span>); <span class="comment">// check every 10 minutes</span></code></pre>
+<pre><code><span class="comment">// use default interval (10s)</span>
+queue.process(<span class="string">'urgent'</span>);
+
+<span class="comment">// check every second</span>
+queue.process(<span class="string">'long'</span>, <span class="number">1000</span>);
+
+<span class="comment">// check every 10 minutes</span>
+queue.process([ <span class="string">'messaging'</span>, <span class="string">'dbaggr'</span> ], <span class="string">'10m'</span>);</code></pre>
 <p>For more information on the behavior of
 <code>queue.process</code>, see the Quick Start guide on
 &quot;Starting the Processor&quot;.
@@ -364,20 +397,29 @@ instance. Here is a sample map/reduce pattern that will get
 the count of queued jobs by task:
 
 </p>
-<pre><code>queue.fetch({ status: <span class="string">'complete'</span> }, <span class="function"><span class="keyword">function</span> <span class="params">(err, jobs)</span> {</span>
-  <span class="keyword">var</span> results = jobs.mapReduce(
-      <span class="function"><span class="keyword">function</span> <span class="title">mapFn</span> <span class="params">(key, value, emit)</span> {</span>
-        <span class="keyword">var</span> task = value.get(<span class="string">'task'</span>);
-        emit(task, <span class="number">1</span>);
-      }
-    , <span class="function"><span class="keyword">function</span> <span class="title">reduceFn</span> <span class="params">(key, value)</span> {</span>
-        <span class="keyword">return</span> value.length;
-      }
-  );
+<pre><code>queue.fetch({ status: <span class="string">'queued'</span> }, <span class="function"><span class="keyword">function</span> <span class="params">(err, jobs)</span> {</span>
+  <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;
 
-  results.each(<span class="function"><span class="keyword">function</span> <span class="params">(value, key, index)</span> {</span>
-    console.log(<span class="string">'The task %s has [%d] queued jobs.'</span>, key, value);
-  });
+  <span class="comment">// aggregate by task name</span>
+  <span class="function"><span class="keyword">function</span> <span class="title">map</span> <span class="params">(key, value, emit)</span> {</span>
+    <span class="keyword">var</span> task = value.get(<span class="string">'task'</span>);
+    emit(task, <span class="number">1</span>);
+  }
+
+  <span class="comment">// reduce by count of emit's per task</span>
+  <span class="function"><span class="keyword">function</span> <span class="title">reduce</span> <span class="params">(key, value)</span> {</span>
+    <span class="keyword">return</span> value.length;
+  }
+
+  <span class="comment">// task welcome email has [42] queued jobs</span>
+  <span class="function"><span class="keyword">function</span> <span class="title">display</span> <span class="params">(value, key)</span> {</span>
+    console.log(<span class="string">'task %s has [%d] queued jobs'</span>, key, value);
+  }
+
+  <span class="comment">// run it</span>
+  jobs
+    .mapReduce(map, reduce)
+    .each(display);
 });</code></pre>
 </div>
         </div>

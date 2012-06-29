@@ -9,8 +9,16 @@ block header
 
 
 block nav
-  div(id='installation', class='head') 
-    a.scroll(href='#header-installation') Quick Start
+  div(id='introduction', class='head') 
+    a.scroll(href='#header-introduction') Introduction
+  for section in files.starting
+    - group = section.href.split('/').filter(function (l) { return l.length ? true : false });
+    - if (group.length == 2)
+      div(id=group[1], class='head'): a.scroll(href='#header-' + group[1])= section.title
+      for subSection in files.starting
+        - subgroup = subSection.href.split('/').filter(function (l) { return l.length ? true : false });
+        if (subgroup.length !== 2 && ~subSection.href.indexOf(group[1])) 
+          div(id=subgroup[2], class='section ' + group[1]): a.scroll(href='#' + group[1] + '-' + subgroup[2])= subSection.title
   for codeFile in files.code
     - var lastHeader = ''
     for comment in codeFile.prepared
@@ -31,9 +39,21 @@ block nav
 
 
 block content
-  #header-installation.segment
-    .para: a(href='#header-installation') &para;
+  #header-introduction.segment
+    .para: a(href='#header-introduction') &para;
     .description!= file.prepared
+  for section in files.starting
+    - group = section.href.split('/').filter(function (l) { return l.length ? true : false });
+    - if (group.length == 2)
+      .segment(id='header-' + group[1])
+        .para: a(href='#header-' + group[1]) &para;
+        .description!= section.prepared
+      for subSection in files.starting
+        - subgroup = subSection.href.split('/').filter(function (l) { return l.length ? true : false });
+        if (subgroup.length !== 2 && ~subSection.href.indexOf(group[1])) 
+          .segment(id=group[1] + '-' + subgroup[2])
+            .para: a(href='#' + group[1] + '-' + subgroup[2]) &para;
+            .description!= subSection.prepared
   for codeFile in files.code
     - var lastPrimary = ''
     for comment in codeFile.prepared
@@ -65,7 +85,6 @@ block content
                   else
                     span.name #{tag.local}
           .description!= comment.description.body
-  - console.log(files)
   for section in files.sections
     - group = section.href.split('/').filter(function (l) { return l.length ? true : false });
     - if (group.length == 2)

@@ -6,7 +6,7 @@
     , "ghuser": "qualiancy"
     , "ghbaseurl": ""
     , "ghproject": "kinetik"
-    , "description": "A storage-agnostic, tag centric job queue for distributed applications."
+    , "description": "A storage-agnostic, tag centric<br />job queue for distributed applications."
   }
 
   , "plugins": [
