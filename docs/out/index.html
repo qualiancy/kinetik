@@ -3,14 +3,24 @@
   <head>
     <title>Kinetik</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
-    <script src="/kinetik/public/js/main.js"></script>
-    <link rel="stylesheet" href="/kinetik/public/css/main.css" type="text/css" media="all">
+    <script src="/public/js/main.js"></script>
+    <link rel="stylesheet" href="/public/css/main.css" type="text/css" media="all">
+    <script type="text/javascript">
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-28369129-2']);
+      _gaq.push(['_trackPageview']);
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
   </head>
   <body>
     <div class="wrapper">
       <header>
         <h1><a href="#top" class="scroll">Kinetik</a></h1>
-        <div class="tagline"><p>A storage-agnostic, tag-based job queue backed by the Seed Database Framework</p>
+        <div class="tagline"><p>A storage-agnostic, tag centric job queue for cloud distributed applications.</p>
 </div><a href="https://github.com/qualiancy/kinetik" class="fork">
           <h2>View the Project on GitHub</h2>
           <div class="project">qualiancy/kinetik</div></a>
@@ -42,19 +52,37 @@
           <div class="para"><a href="#header-installation">&para;</a></div>
           <div class="description"><h4>Features</h4>
 <ul>
+<li>storage-agnostic, thanks to <a href="https://github.com/qualiancy/seed">seed</a></li>
+<li>distribute workers across processes and servers</li>
+<li>tag and priority based processing</li>
+<li>middleware capable</li>
+<li>cli management suite</li>
+<li>job delays</li>
+<li>per-job logging</li>
 <li>chainable api</li>
-<li>based on <a href="https://github.com/qualiancy/seed">seed</a></li>
-<li>works with numerous data storages</li>
-<li>plugin capable</li>
 </ul>
+<h4>Philosophy</h4>
+<p>Simple tasks such as sending transactional emails and mobile notifications should be handled as
+quickly as possible. Other tasks such as database analytics, adaptive re-keys, and media encoding
+should occur when their are dedicated resources available. Kinetik&#39;s goal is to provide the 
+framework necissary to handle both ends of the spectrum with simplicity and agility so your 
+app can keep moving.
+
+</p>
 <h4>What is Seed?</h4>
 <p>Seed is a suite of components (Graph, Model, Schema, Hash) that provide a common API 
 for working with JSON-style documents, regardless of the storage engine. By using Seed, 
-a Kinetik queue can be stored using any of Seed&#39;s storage adapters, including
-<a href="https://github.com/qualiancy/seed-redis">Redis</a> or <a href="https://github.com/qualiancy/seed-mongodb">MongoDB</a>.
+a Kinetik queue can be stored using any of Seed&#39;s storage adapters. 
 
 </p>
 <p><a href="http://github.com/qualiancy/seed">Visit the Seed project page</a> to learn more, and see alternative storage solutions.
+Seed API documentation is in the works, so hold steady.
+
+</p>
+<p>Kinetik currently supports <a href="https://github.com/qualiancy/seed-redis">Redis</a> or 
+<a href="https://github.com/qualiancy/seed-mongodb">MongoDB</a>. Stay tuned for developments 
+regarding Riak and CouchDB. Need something else? The Seed Storage API will make it easy to 
+integrate with your storage engine of choice.
 
 </p>
 <h2>Quick Start Guide</h2>
@@ -64,7 +92,7 @@ a Kinetik queue can be stored using any of Seed&#39;s storage adapters, includin
 </p>
 <pre><code class="lang-bash">npm install kinetik</code></pre>
 <h4>Choosing a Storage Engine</h4>
-<p>The first step to using Kinetik is creating a new quueue using one of Seed&#39;s storage engines.
+<p>The first step to using Kinetik is creating a new queue using one of Seed&#39;s storage engines.
 In this example we will use Redis with a default configuration.
 
 </p>
@@ -657,7 +685,7 @@ queue.use(kinetik.cli());</code></pre>
 
 </p>
 <pre><code class="lang-bash">node queue.js --help</code></pre>
-<p><img src="/kinetik/public/img/kinetik.help.png" alt="Kinetik --help">
+<p><img src="/public/img/kinetik.help.png" alt="Kinetik --help">
 
 </p>
 <h4>Commands</h4>
@@ -665,7 +693,7 @@ queue.use(kinetik.cli());</code></pre>
 <p>Get a list of all of the tasks for this queue:
 
 </p>
-<p><img src="/kinetik/public/img/kinetik.tasks.png" alt="Kinetik tasks">
+<p><img src="/public/img/kinetik.tasks.png" alt="Kinetik tasks">
 
 </p>
 <h5>jobs</h5>
@@ -673,7 +701,7 @@ queue.use(kinetik.cli());</code></pre>
 of each job by task.
 
 </p>
-<p><img src="/kinetik/public/img/kinetik.jobs.png" alt="Kinetik jobs">
+<p><img src="/public/img/kinetik.jobs.png" alt="Kinetik jobs">
 
 </p>
 <h5>clean</h5>
@@ -682,7 +710,7 @@ status option is provided. Furthermore, all logs associated with the jobs remove
 also be removed.
 
 </p>
-<p><img src="/kinetik/public/img/kinetik.clean.png" alt="Kinetik clean">
+<p><img src="/public/img/kinetik.clean.png" alt="Kinetik clean">
 </p>
 </div>
         </div>

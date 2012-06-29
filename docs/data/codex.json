@@ -1,12 +1,12 @@
 {
   "locals": {
       "title": "Kinetik"
-    , "googleanalytics": ""
+    , "googleanalytics": "UA-28369129-2"
     , "mixpanel": ""
     , "ghuser": "qualiancy"
-    , "ghbaseurl": "/kinetik"
+    , "ghbaseurl": ""
     , "ghproject": "kinetik"
-    , "description": "A storage-agnostic, tag-based job queue backed by the Seed Database Framework"
+    , "description": "A storage-agnostic, tag centric job queue for cloud distributed applications."
   }
 
   , "plugins": [

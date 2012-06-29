@@ -26,7 +26,7 @@ Now you are free to use that file as your CLI. Assuming `queue.js` was your file
 node queue.js --help
 ```
 
-![Kinetik --help](/kinetik/public/img/kinetik.help.png)
+![Kinetik --help](/public/img/kinetik.help.png)
 
 #### Commands
 
@@ -34,14 +34,14 @@ node queue.js --help
 
 Get a list of all of the tasks for this queue:
 
-![Kinetik tasks](/kinetik/public/img/kinetik.tasks.png)
+![Kinetik tasks](/public/img/kinetik.tasks.png)
 
 ##### jobs
 
 Get a list of all of the jobs in this queue. Also shows a breakdown of the current status
 of each job by task.
 
-![Kinetik jobs](/kinetik/public/img/kinetik.jobs.png)
+![Kinetik jobs](/public/img/kinetik.jobs.png)
 
 ##### clean
 
@@ -49,4 +49,4 @@ Clean jobs of a given status, optionally by tag. Will default to `completed` if 
 status option is provided. Furthermore, all logs associated with the jobs removed will
 also be removed.
 
-![Kinetik clean](/kinetik/public/img/kinetik.clean.png)
+![Kinetik clean](/public/img/kinetik.clean.png)
