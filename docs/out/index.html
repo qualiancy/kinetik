@@ -26,14 +26,15 @@
           <div id="fetch" class="section queue_api"><a href="#queue_api-fetch" class="scroll">fetch</a></div>
           <div id="cancel" class="section queue_api"><a href="#queue_api-cancel" class="scroll">cancel</a></div>
           <div id="clean" class="section queue_api"><a href="#queue_api-clean" class="scroll">clean</a></div>
-          <div id="defining_tasks" class="head"><a href="#header-defining_tasks" class="scroll">Defining Tasks</a></div>
-          <div id="tag" class="section defining_tasks"><a href="#defining_tasks-tag" class="scroll">tag</a></div>
-          <div id="action" class="section defining_tasks"><a href="#defining_tasks-action" class="scroll">action</a></div>
-          <div id="desc" class="section defining_tasks"><a href="#defining_tasks-desc" class="scroll">desc</a></div>
-          <div id="timeout" class="section defining_tasks"><a href="#defining_tasks-timeout" class="scroll">timeout</a></div>
+          <div id="task_api" class="head"><a href="#header-task_api" class="scroll">Task API</a></div>
+          <div id="tag" class="section task_api"><a href="#task_api-tag" class="scroll">tag</a></div>
+          <div id="desc" class="section task_api"><a href="#task_api-desc" class="scroll">desc</a></div>
+          <div id="timeout" class="section task_api"><a href="#task_api-timeout" class="scroll">timeout</a></div>
+          <div id="action" class="section task_api"><a href="#task_api-action" class="scroll">action</a></div>
           <div id="middleware" class="head"><a href="#header-middleware" class="scroll">Middleware</a></div>
-          <div id="cli" class="section middleware"><a href="#middleware-cli" class="scroll">CLI</a></div>
           <div id="environment" class="section middleware"><a href="#middleware-environment" class="scroll">Environment</a></div>
+          <div id="cli" class="section middleware"><a href="#middleware-cli" class="scroll">CLI</a></div>
+          <div id="resources" class="head"><a href="#header-resources" class="scroll">Resources</a></div>
         </nav>
       </header>
       <section id="content">
@@ -395,9 +396,9 @@ jobs which have timed out or failed will still remain.
 });</code></pre>
 </div>
         </div>
-        <div id="header-defining_tasks" class="segment">
-          <div class="para"><a href="#header-defining_tasks">&para;</a></div>
-          <div class="summary"><h2>Defining Tasks</h2>
+        <div id="header-task_api" class="segment">
+          <div class="para"><a href="#header-task_api">&para;</a></div>
+          <div class="summary"><h2>Task API</h2>
 </div>
           <ul class="tags">
           </ul>
@@ -406,39 +407,47 @@ be returned a new instance of a <code>Task</code>. In Kinetik, the purpose
 of a task is to define how to process a given job.
 
 </p>
+<pre><code><span class="keyword">var</span> task = queue.define(<span class="string">'email.welcome'</span>)
+  .tag(<span class="string">'messaging'</span>)
+  .action(<span class="function"><span class="keyword">function</span> <span class="params">(job, done)</span> {</span>
+    <span class="keyword">var</span> locals = { name: job.data.name };
+    render(<span class="string">'./emails/welcome.jade'</span>, locals, <span class="function"><span class="keyword">function</span> <span class="params">(err, html)</span> {</span>
+      <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+      asyncMailer(email, html, <span class="function"><span class="keyword">function</span> <span class="params">(err, transId)</span> {</span>
+        <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+        job.log(<span class="string">'Email sent'</span>, { receipt: transId });
+        done();
+      });
+    });
+  });</code></pre>
 <h5>Necessities</h5>
 <p>Each task is created with a unique <code>name</code> that will be referenced
-when you create jobs. In addition, a task should also be given a
-<code>tag</code> and an <code>action</code>.
+when you create jobs. This is completely arbitrary, but avoid using
+<code>:</code> as a namespace delimeter, as Kinetik uses that internally.
 
 </p>
 <p>The <code>tag</code> is used to group the jobs for the queue processor. These
 are arbitrary keywords and can be as simple as priorities, such as
 <code>normal</code> and <code>important</code> OR task groupings such as <code>messaging</code> and
-<code>dbAggregation</code>.
+<code>db aggregation</code>.
 
 </p>
 <p>The <code>action</code> is the function that is to be executed to process the job.
-Actions are asyncronous by nature and provide a number of helper
-methods (more later).
+Actions are asyncronous by nature and are provide a number of helper
+methods from Kinetik (more later).
 
 </p>
-<blockquote>
-<p>Advanced Techniques: A <code>task</code> is a constructed Seed model that
-does not have a store attached to it.
-
-</p>
-</blockquote>
 <h5>Events</h5>
 <p>A task is also an event-emitter which will emit the following events
 for each job that is processed through a task.
 
 </p>
 <ul>
-<li><code>job::start</code> - (job) - on when a job starts is processing run</li>
-<li><code>job::complete</code> - (job) - on when a job has completed</li>
-<li><code>job::error</code> - (err, job) - on when a job has errored</li>
-<li><code>job::timeout</code> - (job) - on when a job has timed out</li>
+<li><code>complete</code> - (job) - when a job has completed</li>
+<li><code>fail</code> - (err, job) - when a job has failed errored</li>
+<li><code>timeout</code> - (job) - when a job has timed out</li>
+<li><code>log</code> - (job, line) - when a job has logged a line of data</li>
+<li><code>progress</code> - (job, current, total) - when the progress helper is emitted</li>
 </ul>
 <p>In all of the events, the <code>job</code> parameter provided is a job
 model that can be updated and saved to your data store. This
@@ -449,21 +458,16 @@ allows you the flexibility to:
 <li>Provide your own re-queue methodology.</li>
 <li>Delete jobs that have been completed.</li>
 </ul>
-<h5>Defining Tasks</h5>
-<p>Defining a task can be done using chaining.
-
-</p>
-<pre><code><span class="keyword">var</span> task = queue.define(<span class="string">'email::welcome'</span>)
-  .tag(<span class="string">'messaging'</span>)
-  .on(<span class="string">'job::complete'</span>, jobCompleteFn)
-  .action(doSomething);</code></pre>
-<p>You can use the following API methods to further control yours tasks..
+<p>You should, however, avoid updating the log model during a <code>log</code> or
+<code>progress</code> event as the action is still being processed. The status
+events occur after the results of the job have been committed to the
+database.
 </p>
 </div>
         </div>
-        <div id="defining_tasks-tag" class="segment">
-          <div class="para"><a href="#defining_tasks-tag">&para;</a></div>
-          <div class="summary"><h3>tag (tag)</h3>
+        <div id="task_api-tag" class="segment">
+          <div class="para"><a href="#task_api-tag">&para;</a></div>
+          <div class="summary"><h3>.tag (tag)</h3>
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">tag</span><span class="desc"></span></li>
@@ -476,83 +480,8 @@ tasks will use <code>default</code> until this is defined.
 <pre><code>task.tag(<span class="string">'urguent'</span>)</code></pre>
 </div>
         </div>
-        <div id="defining_tasks-action" class="segment">
-          <div class="para"><a href="#defining_tasks-action">&para;</a></div>
-          <div class="summary"><h3>action (fn)</h3>
-</div>
-          <ul class="tags">
-            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">action</span><span class="desc">function</span></li>
-          </ul>
-          <div class="description"><p>Provides an action for a given task. When executed,
-the action will receive two parameters:
-
-</p>
-<ul>
-<li><code>job</code> - <strong>{Object}</strong> - encapsulats everything about a job</li>
-<li><code>done</code> - <strong>{Function}</strong> - indicates when the action has completed</li>
-</ul>
-<p>In the <code>job</code> object, the following properties are available.
-
-</p>
-<ul>
-<li><code>id</code> - <strong>{Number|String}</strong> - the id of the job according to kinetik</li>
-<li><code>data</code> - <strong>{Object}</strong> - data attributes passed on job creation</li>
-<li><code>progress</code> - <strong>{Function}</strong> - indicate the progress of actions
-with multiple steps.</li>
-</ul>
-<p>If you want to mark the job as <code>errored</code> as opposed to
-<code>completed</code>, you can send a parameter to the done function.
-
-</p>
-<pre><code>done(<span class="string">'This job completed with an error.'</span>);
-done(<span class="keyword">new</span> Error(<span class="string">'This job completed with an error.'</span>);</code></pre>
-<p>If a string is provided it will be logged as the error message;
-if an object (such as an <code>Error</code>) is sent, kinetik will
-attempt to read the the object&#39;s <code>message</code> property as
-the failure reason.
-
-</p>
-<h5>Single-step Actions</h5>
-<p>For example, the following psuedo-code is using an arbitrary
-database and email delivery service:
-
-</p>
-<pre><code>task.action(<span class="function"><span class="keyword">function</span> <span class="params">(job, done)</span> {</span>
-  db.get(data.id, <span class="function"><span class="keyword">function</span> <span class="params">(err, doc)</span> {</span>
-    <span class="keyword">if</span> (!doc) <span class="keyword">return</span> done(data.id + <span class="string">' not found'</span>);
-    <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
-    <span class="keyword">var</span> email = doc.get(<span class="string">'email'</span>);
-    email.send(email, <span class="string">'Hello Universe'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
-      <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
-      done();
-    });
-  });
-});</code></pre>
-<h5>Multi-step Actions</h5>
-<p>If your action is completed using many steps and you wish to
-indicate what step you are on, the <code>job.progress</code> method
-can be used to mark the current progress of the action.
-
-</p>
-<p>For example, the following psuedo-code uses an arbitrary
-database and asyncronous flow control module:
-
-</p>
-<pre><code>task.action(<span class="function"><span class="keyword">function</span> <span class="params">(job, done)</span> {</span>
-  db.get(data.id, <span class="function"><span class="keyword">function</span> <span class="params">(err, frames)</span> {</span>
-    <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
-    doSeries(frames, <span class="function"><span class="keyword">function</span> <span class="params">(frame, index, next)</span> {</span>
-      renderFrame(frame, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
-        job.progress(index, frames.length);
-        next(err);
-      });
-    }, done);
-  });
-});</code></pre>
-</div>
-        </div>
-        <div id="defining_tasks-desc" class="segment">
-          <div class="para"><a href="#defining_tasks-desc">&para;</a></div>
+        <div id="task_api-desc" class="segment">
+          <div class="para"><a href="#task_api-desc">&para;</a></div>
           <div class="summary"><h3>.desc (description)</h3>
 </div>
           <ul class="tags">
@@ -563,8 +492,8 @@ defined. This can be used by middleware.
 </p>
 </div>
         </div>
-        <div id="defining_tasks-timeout" class="segment">
-          <div class="para"><a href="#defining_tasks-timeout">&para;</a></div>
+        <div id="task_api-timeout" class="segment">
+          <div class="para"><a href="#task_api-timeout">&para;</a></div>
           <div class="summary"><h3>.timeout (duration)</h3>
 </div>
           <ul class="tags">
@@ -572,32 +501,223 @@ defined. This can be used by middleware.
           </ul>
           <div class="description"><p>Provides a timeout duration for the action. If this
 time length has been reached an action will be marked
-as <code>errored</code> citing that it has timed-out. If no <code>timeout</code>
-is defined, an action can run indefinately.
+as <code>timeout</code>. If no timeout value is defined, an action
+can run indefinately. Even though the <code>action</code> function
+is still running in limbo, Kinetik will have moved on
+and any attempts to change the status of the job or
+emit log and progress will be ignored.
 
 </p>
 <pre><code>task.timeout(<span class="number">10000</span>); <span class="comment">// 10 seconds</span>
 task.timeout(<span class="string">'1m'</span>); <span class="comment">// 1 minute</span></code></pre>
 </div>
         </div>
+        <div id="task_api-action" class="segment">
+          <div class="para"><a href="#task_api-action">&para;</a></div>
+          <div class="summary"><h3>.action (fn)</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">action</span><span class="desc">function</span></li>
+          </ul>
+          <div class="description"><p>Provides an action for a given task. When executed,
+the action will receive two arguments:
+
+</p>
+<ul>
+<li><code>job</code> - <em>{Object}</em> - encapsulats everything about a job</li>
+<li><code>done</code> - <em>{Function}</em> - indicates when the action has completed</li>
+</ul>
+<p>In the <code>job</code> object, the following properties are available.
+
+</p>
+<ul>
+<li><code>id</code> - <em>{Number|String}</em> - the id of the job according to your database</li>
+<li><code>data</code> - <em>{Object}</em> - data attributes passed on job creation</li>
+<li><code>progress</code> - <em>{Function}</em> - indicate the progress of actions
+with multiple steps.</li>
+<li><code>log</code> - <em>{Function}</em> - method used to log a line item to the
+database for that job.</li>
+</ul>
+<h5>Indicating Progress</h5>
+<p>You can use the <code>progress</code> method to indicate the current position
+if the task has multiple steps. This is not saved to the database, but
+instead emitted as the <code>progress</code> event on onto the task.
+
+</p>
+<pre><code><span class="comment">// current, total</span>
+job.progress(<span class="number">10</span>, <span class="number">100</span>);</code></pre>
+<h5>Logging</h5>
+<p>Each task can have log items associated with them. Kinetik creates
+a few of these on creation, completion, failure, and timeout. You
+also have the ability to create these. Each one is timestamped and
+can include a message and options JSON data to accompany the log item.
+
+</p>
+<pre><code><span class="comment">// message, data</span>
+job.log(<span class="string">'Email send complete.'</span>, { receipt: transactionId });</code></pre>
+<p>During a job run these are emitted immediately as the <code>log</code> event
+to the task. They are also stored in memory and pushed the the
+database as a batch at the completion of action.
+
+</p>
+<h5>Indicating Completion</h5>
+<p>If you want to mark the job as <code>errored</code> as opposed to
+<code>completed</code>, you can send a parameter to the done function.
+
+</p>
+<pre><code>done(<span class="string">'This job completed with an error.'</span>);
+done(<span class="keyword">new</span> Error(<span class="string">'This job completed with an error.'</span>);</code></pre>
+<p>If a string is provided it will be logged as the error message;
+if an object (such as a constructed javascript  <code>Error</code>) is sent,
+kinetik will attempt to read the the object&#39;s <code>message</code> property as
+the failure reason, and also the error <code>code</code> property if there is
+one.
+</p>
+</div>
+        </div>
         <div id="header-middleware" class="segment">
           <div class="para"><a href="#header-middleware">&para;</a></div>
           <div class="description"><h2>Middleware</h2>
-<p>this is middleware
+<p>Middleware provides a way to hook into the events and methods of a queue. The API is in
+its infancy, but expect great things in the near future.
+
+</p>
+<h5>Current Middleware</h5>
+<ul>
+<li><code>environment</code> - start multiple queue runners based on environment variables</li>
+<li><code>cli</code> - perform maintaince on your queue/jobs using a cli</li>
+</ul>
+<h5>Roadmap</h5>
+<p>This are the middleware &quot;apps&quot; that Kinetik currently has planned. If you are interested in
+contributing, please contact <a href="http://twitter.com/jakeluer">@jakeluer</a> on Twitter.
+
+</p>
+<ul>
+<li>HTTP API for job management</li>
+<li>Network capable event bus</li>
+<li>Web App UI</li>
+</ul>
+</div>
+        </div>
+        <div id="middleware-environment" class="segment">
+          <div class="para"><a href="#middleware-environment">&para;</a></div>
+          <div class="description"><h3>Environment</h3>
+<p>The environment middleware allows you to easily start multiple job processing node processes
+based on a set of tags. This allows you to fully utilize the resources of the server or 
+servers that Kinetik is running on. Make sure that you are using one of Seed&#39;s database
+storage engines.
+
+</p>
+<p>To use the <code>environment</code> middleware, start of creating a queue and defining tasks as normal, but
+avoid calling <code>queue.process</code> directly. Instead, end your program with the following <code>use</code>
+mechanism:
+
+</p>
+<pre><code class="lang-js"><span class="keyword">var</span> kinetik = require(<span class="string">'kinetik'</span>)
+  , RedisStore = require(<span class="string">'seed-redis'</span>)
+  , queue = kinetik(<span class="keyword">new</span> RedisStore());
+
+<span class="comment">// define all your tasks</span>
+
+queue.use(kinetik.environment());</code></pre>
+<p>This tells the queue to look for the <code>QUEUE</code> environment variable and being processing only if 
+a list of tags are passed to it. If no <code>QUEUE</code> variable is found, the queue will not begin processing.
+
+</p>
+<p>To start the queue, you then invoke your queue from the command line.
+
+</p>
+<pre><code class="lang-bash">QUEUE=messaging node queue.js</code></pre>
+<p>This will start the queue processing the <code>messaging</code> tag. You can also spin up multiple processes
+including multiple tags.
+
+</p>
+<pre><code class="lang-bash">QUEUE=messaging node queue.js
+QUEUE=db.aggregation,log.rotate node queue.js</code></pre>
+<p>You now have two node processes working on your queue. 
 </p>
 </div>
         </div>
         <div id="middleware-cli" class="segment">
           <div class="para"><a href="#middleware-cli">&para;</a></div>
           <div class="description"><h3>Command-line Interface</h3>
-<p>pics of cli
+<p>The command-line interface works best when paired with the <code>environment</code> middleware.
+Since <code>node queue.js</code> won&#39;t do anything without the <code>QUEUE</code> environment variable, you
+are free to use those calls for other things, such as performing maintainance and getting
+statistics.
+
+</p>
+<h5>Setup</h5>
+<p>Rather simple, really:
+
+</p>
+<pre><code class="lang-js">queue.use(kinetik.environment());
+queue.use(kinetik.cli());</code></pre>
+<p>Now you are free to use that file as your CLI. Assuming <code>queue.js</code> was your file:
+
+</p>
+<pre><code class="lang-bash">node queue.js --help</code></pre>
+<p>TODO: PIC
+
+
+</p>
+<h4>Commands</h4>
+<h5>tasks</h5>
+<p>Get a list of all of the tasks for this queue:
+
+</p>
+<p>TODO: PIC
+
+</p>
+<h5>jobs</h5>
+<p>Get a list of all of the jobs in this queue. Also shows a breakdown of the current status
+of each job by task.
+
+</p>
+<p>TODO: PIC
+
+</p>
+<h5>clean</h5>
+<p>Clean jobs of a given status, optionally by tag. Will default to <code>completed</code> if no
+status option is provided. Furthermore, all logs associated with the jobs removed will
+also be removed.
+
+</p>
+<p>TODO: PIC
 </p>
 </div>
         </div>
-        <div id="middleware-environment" class="segment">
-          <div class="para"><a href="#middleware-environment">&para;</a></div>
-          <div class="description"><h3>Environment</h3>
-<p>environment load
+        <div id="header-resources" class="segment">
+          <div class="para"><a href="#header-resources">&para;</a></div>
+          <div class="description"><h2>Resources</h2>
+<h4>Tests</h4>
+<p>Tests are writting in <a href="http://github.com/visionmedia/mocha">Mocha</a> using 
+the <a href="http://chaijs.com">Chai</a> <code>should</code> BDD assertion library. To make sure you 
+have that installed, clone this repo, install dependacies using <code>npm install</code>.
+
+</p>
+<pre><code class="lang-bash">make test</code></pre>
+<p>By default, Kinetik will use a MemoryStore to task all of its functionality.
+You can also test database integration with Redis and MongoDB. Make sure that you
+have both installed locally and setup with default configs without authentication.
+
+</p>
+<pre><code class="lang-bash">make test-int</code></pre>
+<p>The tests will aggressively clean up after themselves. Mongo will remove the collection 
+that it created and Redis with flush the default database. You may alter this behavior 
+by commenting out a few lines in <code>test/storage.js</code>.
+
+</p>
+<h4>Contributors</h4>
+<p>Interested in contributing? Fork to get started. Contact <a href="http://github.com/logicalparadox">@logicalparadox</a> 
+if you are interested in being regular contributor.
+
+</p>
+<ul>
+<li>Jake Luer (<a href="http://github.com/logicalparadox">@logicalparadox</a>)</li>
+</ul>
+<h4>License</h4>
+<p>(The MIT License)
 </p>
 </div>
         </div>
