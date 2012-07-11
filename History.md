@@ -1,4 +1,19 @@
 
+0.2.0 / 2012-07-10 
+==================
+
+  * update docs with better example
+  * more info in example guide/tasks
+  * doc typo. Closes #14
+  * Merge branch 'bug/gh-13'
+  * fix debug messages. Closes #13
+  * fix retry test referencing non-existing data
+  * remove strange chars from task model
+  * Merge branch 'bug/gh-15'
+  * make cancel callback optional
+  * Merge pull request #16 from pgherveou/master
+  * delay
+
 0.1.0 / 2012-06-29 
 ==================
 
