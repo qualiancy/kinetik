@@ -232,12 +232,11 @@ module.exports = function (store) {
   it('can retry failed execution', function (done) {
     var data = { hello: 'universe' }
       , spy1 = chai.spy(function (job, next) {
-          job.should.not.have.property('_attributes.retry');
+          spy2.should.have.not.been.called();
           next('first try is a fail');
         })
       , spy2 = chai.spy(function (job, next) {
-          job.should.have.property('_attributes.retry');
-          job._attributes.retry.should.equal(1);
+          spy1.should.have.been.called.once;
           process.nextTick(next);
         })
       , tries = [spy1, spy2]
@@ -252,7 +251,7 @@ module.exports = function (store) {
 
     queue
       .define('task retry')
-      .tag('task rery')
+      .tag('task retry')
       .retry('10ms', 1)
       .on('complete', function (job) {
         job.get('task').should.equal('task retry');
@@ -268,6 +267,5 @@ module.exports = function (store) {
     queue.create('task retry', data);
     queue.process([ 'task retry' ]);
   });
-
 
 };
