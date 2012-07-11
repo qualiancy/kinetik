@@ -268,5 +268,4 @@ module.exports = function (store) {
     queue.process([ 'task retry' ]);
   });
 
-
 };
