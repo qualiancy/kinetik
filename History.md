@@ -1,4 +1,10 @@
 
+0.2.1 / 2012-07-11 
+==================
+
+  * Merge pull request #19 from pgherveou/master
+  * clean commit for retry task patch
+
 0.2.0 / 2012-07-10 
 ==================
 
