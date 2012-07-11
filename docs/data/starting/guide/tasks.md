@@ -19,8 +19,9 @@ queue
     var email = job.data.email
       , subject = job.data.subject;
 
-    myAsyncMailer(email, subject, function (err) {
+    myAsyncMailer(email, subject, body, function (err) {
       if (err) return done(err);
+      // do more things if needed.
       done();
     });
   });
