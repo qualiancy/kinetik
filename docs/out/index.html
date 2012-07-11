@@ -47,6 +47,7 @@
           <div id="desc" class="section task_api"><a href="#task_api-desc" class="scroll">desc</a></div>
           <div id="timeout" class="section task_api"><a href="#task_api-timeout" class="scroll">timeout</a></div>
           <div id="action" class="section task_api"><a href="#task_api-action" class="scroll">action</a></div>
+          <div id="retry" class="section task_api"><a href="#task_api-retry" class="scroll">retry</a></div>
           <div id="middleware" class="head"><a href="#header-middleware" class="scroll">Middleware</a></div>
           <div id="environment" class="section middleware"><a href="#middleware-environment" class="scroll">Environment</a></div>
           <div id="cli" class="section middleware"><a href="#middleware-cli" class="scroll">CLI</a></div>
@@ -140,8 +141,9 @@ of work, and will encapsulate all of the data passed to it.
     <span class="keyword">var</span> email = job.data.email
       , subject = job.data.subject;
 
-    myAsyncMailer(email, subject, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
+    myAsyncMailer(email, subject, body, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
       <span class="keyword">if</span> (err) <span class="keyword">return</span> done(err);
+      <span class="comment">// do more things if needed.</span>
       done();
     });
   });</code></pre>
@@ -270,7 +272,7 @@ current queue instance. Cannot be set.
 environment variable matches defined <code>env</code>.
 
 </p>
-<pre><code>queue.configure(<span class="string">'developement'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+<pre><code>queue.configure(<span class="string">'development'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
   queue.use(kinetik.cli());
 });</code></pre>
 </div>
@@ -429,7 +431,7 @@ the count of queued jobs by task:
 </div>
           <ul class="tags">
             <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Job | ObjectId &#125;</span><span class="name">job</span><span class="desc">instance or id</span></li>
-            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc">upon compltion</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Function &#125;</span><span class="name">callback</span><span class="desc">upon completion (optional)</span></li>
           </ul>
           <div class="description"><p>Cancel a specific job. Accepts either job
 instance of Seed.Model or id of job. If you
@@ -642,6 +644,18 @@ if an object (such as a constructed javascript  <code>Error</code>) is sent,
 kinetik will attempt to read the the object&#39;s <code>message</code> property as
 the failure reason, and also the error <code>code</code> property if there is
 one.
+</p>
+</div>
+        </div>
+        <div id="task_api-retry" class="segment">
+          <div class="para"><a href="#task_api-retry">&para;</a></div>
+          <div class="summary"><h3>.retry</h3>
+</div>
+          <ul class="tags">
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; Number | String &#125;</span><span class="name">duration</span><span class="desc">between two retries</span></li>
+            <li class="tag"><span class="type">&#64;param</span><span class="types">&#123; String &#125;</span><span class="name">number</span><span class="desc">of retries, infinite if not set</span></li>
+          </ul>
+          <div class="description"><p>define if the task should be re-run when it fails
 </p>
 </div>
         </div>
