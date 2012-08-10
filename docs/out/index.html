@@ -20,7 +20,7 @@
     <div class="wrapper">
       <header>
         <h1><a href="#top" class="scroll">Kinetik</a></h1>
-        <div class="tagline"><p>A storage-agnostic, tag centric<br />job queue for distributed applications.</p>
+        <div class="tagline"><p>A storage-agnostic, tag centric&lt;br /&gt;job queue for distributed applications.</p>
 </div><a href="https://github.com/qualiancy/kinetik" class="fork">
           <h2>View the Project on GitHub</h2>
           <div class="project">qualiancy/kinetik</div></a>
@@ -223,7 +223,9 @@ storage engines, and any of the below options.
 </p>
 <pre><code><span class="keyword">var</span> kinetik = require(<span class="string">'kinetik'</span>)
   , RedisStore = require(<span class="string">'seed-redis'</span>)
-  , queue = kinetik(<span class="keyword">new</span> RedisStore(), { interval: <span class="string">'1m'</span> });</code></pre>
+  , queue = kinetik(<span class="keyword">new</span> RedisStore(), { interval: <span class="string">'1m'</span> });
+
+</code></pre>
 <h5>Options</h5>
 <ul>
 <li><code>interval</code> [10s]: wait time after at tag or group of tags has been emptied</li>
@@ -257,7 +259,8 @@ of all of the tags for tasks  attached to the
 current queue instance. Cannot be set.
 
 </p>
-<pre><code>console.log(queue.tags); <span class="comment">// [ 'messaging' ]</span></code></pre>
+<pre><code>console.log(queue.tags); <span class="comment">// [ 'messaging' ]</span>
+</code></pre>
 </div>
         </div>
         <div id="queue_api-configure" class="segment">
@@ -274,7 +277,8 @@ environment variable matches defined <code>env</code>.
 </p>
 <pre><code>queue.configure(<span class="string">'development'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
   queue.use(kinetik.cli());
-});</code></pre>
+});
+</code></pre>
 </div>
         </div>
         <div id="queue_api-use" class="segment">
@@ -295,7 +299,8 @@ Useful for code re-use.
   q.on(<span class="string">'error'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
     console.log(err.message);
   });
-});</code></pre>
+});
+</code></pre>
 </div>
         </div>
         <div id="queue_api-define" class="segment">
@@ -312,7 +317,8 @@ names as they are reserved for internal event
 namespacing.
 
 </p>
-<pre><code><span class="keyword">var</span> sendEmail = queue.define(<span class="string">'send email'</span>);</code></pre>
+<pre><code><span class="keyword">var</span> sendEmail = queue.define(<span class="string">'send email'</span>);
+</code></pre>
 </div>
         </div>
         <div id="queue_api-create" class="segment">
@@ -335,7 +341,9 @@ appropriate format.
     email: <span class="string">'ford@hitchhikersguide.com'</span>
   , name: <span class="string">'Ford Prefect'</span>
   , subject: <span class="string">'Welcome to the Guide'</span>
-}, <span class="string">'1d'</span>);</code></pre>
+}, <span class="string">'1d'</span>);
+
+</code></pre>
 <p>Stringed timestamps can be in any of the following
 formats: <code>10ms</code>, <code>30s</code>, <code>45m</code>, <code>2h</code>, <code>6d</code>.
 
@@ -368,7 +376,9 @@ queue.process(<span class="string">'urgent'</span>);
 queue.process(<span class="string">'long'</span>, <span class="number">1000</span>);
 
 <span class="comment">// check every 10 minutes</span>
-queue.process([ <span class="string">'messaging'</span>, <span class="string">'dbaggr'</span> ], <span class="string">'10m'</span>);</code></pre>
+queue.process([ <span class="string">'messaging'</span>, <span class="string">'dbaggr'</span> ], <span class="string">'10m'</span>);
+
+</code></pre>
 <p>For more information on the behavior of
 <code>queue.process</code>, see the Quick Start guide on
 &quot;Starting the Processor&quot;.
@@ -422,7 +432,8 @@ the count of queued jobs by task:
   jobs
     .mapReduce(map, reduce)
     .each(display);
-});</code></pre>
+});
+</code></pre>
 </div>
         </div>
         <div id="queue_api-cancel" class="segment">
@@ -444,7 +455,8 @@ queue in which the job&#39;s task is defined, a
 queue.cancel(job, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
   <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;
   console.log(<span class="string">'job %j has been cancelled'</span>, id);
-});</code></pre>
+});
+</code></pre>
 </div>
         </div>
         <div id="queue_api-clean" class="segment">
@@ -465,7 +477,8 @@ jobs which have timed out or failed will still remain.
 <pre><code>queue.clean(<span class="string">'messaging'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(err)</span> {</span>
   <span class="keyword">if</span> (err) <span class="keyword">throw</span> err;
   console.log(<span class="string">'all completed messaging jobs have been removed'</span>);
-});</code></pre>
+});
+</code></pre>
 </div>
         </div>
         <div id="header-task_api" class="segment">
@@ -491,7 +504,9 @@ of a task is to define how to process a given job.
         done();
       });
     });
-  });</code></pre>
+  });
+
+</code></pre>
 <h5>Necessities</h5>
 <p>Each task is created with a unique <code>name</code> that will be referenced
 when you create jobs. This is completely arbitrary, but avoid using
@@ -549,7 +564,8 @@ require a tag to be found by the queue processor, but
 tasks will use <code>default</code> until this is defined.
 
 </p>
-<pre><code>task.tag(<span class="string">'urguent'</span>)</code></pre>
+<pre><code>task.tag(<span class="string">'urguent'</span>)
+</code></pre>
 </div>
         </div>
         <div id="task_api-desc" class="segment">
@@ -581,7 +597,8 @@ emit log and progress will be ignored.
 
 </p>
 <pre><code>task.timeout(<span class="number">10000</span>); <span class="comment">// 10 seconds</span>
-task.timeout(<span class="string">'1m'</span>); <span class="comment">// 1 minute</span></code></pre>
+task.timeout(<span class="string">'1m'</span>); <span class="comment">// 1 minute</span>
+</code></pre>
 </div>
         </div>
         <div id="task_api-action" class="segment">
@@ -617,7 +634,9 @@ instead emitted as the <code>progress</code> event on onto the task.
 
 </p>
 <pre><code><span class="comment">// current, total</span>
-job.progress(<span class="number">10</span>, <span class="number">100</span>);</code></pre>
+job.progress(<span class="number">10</span>, <span class="number">100</span>);
+
+</code></pre>
 <h5>Logging</h5>
 <p>Each task can have log items associated with them. Kinetik creates
 a few of these on creation, completion, failure, and timeout. You
@@ -626,7 +645,9 @@ can include a message and options JSON data to accompany the log item.
 
 </p>
 <pre><code><span class="comment">// message, data</span>
-job.log(<span class="string">'Email send complete.'</span>, { receipt: transactionId });</code></pre>
+job.log(<span class="string">'Email send complete.'</span>, { receipt: transactionId });
+
+</code></pre>
 <p>During a job run these are emitted immediately as the <code>log</code> event
 to the task. They are also stored in memory and pushed the the
 database as a batch at the completion of action.
@@ -638,7 +659,9 @@ database as a batch at the completion of action.
 
 </p>
 <pre><code>done(<span class="string">'This job completed with an error.'</span>);
-done(<span class="keyword">new</span> Error(<span class="string">'This job completed with an error.'</span>);</code></pre>
+done(<span class="keyword">new</span> Error(<span class="string">'This job completed with an error.'</span>);
+
+</code></pre>
 <p>If a string is provided it will be logged as the error message;
 if an object (such as a constructed javascript  <code>Error</code>) is sent,
 kinetik will attempt to read the the object&#39;s <code>message</code> property as

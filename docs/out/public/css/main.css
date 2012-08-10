@@ -181,7 +181,6 @@ a.fork {
   background: -ms-linear-gradient(top, #c64a28 0%, #ad4123 100%);
   background: linear-gradient(top, #c64a28 0%, #ad4123 100%);
   -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
-  -moz-box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
   box-shadow: 1px 1px 5px rgba(0,0,0,0.3);
   border: 1px solid #8a341c;
   color: #fff;
@@ -189,7 +188,6 @@ a.fork {
   margin-bottom: 30px;
   padding: 10px;
   -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   border-radius: 5px;
   text-shadow: 1px 1px 0px #792d18;
 }
@@ -233,7 +231,6 @@ pre {
   background: #111314;
   margin-bottom: 1.5em;
   -webkit-box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
-  -moz-box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
   box-shadow: 1px 0 2px #0d0d0d, -1px 0 2px #0d0d0d, 0 2px 2px #0d0d0d, 0 -1px 2px #0d0d0d, inset -1px -1px 0 #000, inset 1px 1px 0 #191919;
 }
 .segment {
@@ -247,7 +244,8 @@ pre {
   width: 20px;
   display: none;
   opacity: 0;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  filter: alpha(opacity=0);
 }
 .segment .para a {
   color: #fc4702;
@@ -402,5 +400,6 @@ pre .chunk {
 }
 pre .tex .formula {
   opacity: 0.5;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=50);
+  filter: alpha(opacity=50);
 }
