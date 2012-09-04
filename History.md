@@ -1,4 +1,15 @@
 
+0.3.0 / 2012-09-04 
+==================
+
+  * Merge branch 'feature/idris'
+  * remove reference to internal utils
+  * remove ms util
+  * add idris to deps
+  * refactor cli deps into middleware folder
+  * refactor queue._tasks as queue.tasks. Closes #21
+  * update docs
+
 0.2.1 / 2012-07-11 
 ==================
 
