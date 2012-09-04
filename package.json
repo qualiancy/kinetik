@@ -15,9 +15,10 @@
         "node": ">= 0.6.0"
     }
   , "dependencies": {
-        "seed": "0.4.x"
+        "debug": "*"
       , "electron": "0.2.x"
-      , "debug": "*"
+      , "idris": "0.2.x"
+      , "seed": "0.4.x"
     }
   , "devDependencies": {
         "connect": "2.3.x"
