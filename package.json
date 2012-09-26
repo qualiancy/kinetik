@@ -2,7 +2,7 @@
     "author": "Jake Luer <jake@alogicalparadox.com>"
   , "name": "kinetik"
   , "description": "A storage-agnostic, tag centric job queue for distributed applications."
-  , "version": "0.3.0"
+  , "version": "0.3.1"
   , "repository": {
         "type": "git"
       , "url": "git://github.com/qualiancy/kinetik.git"
