@@ -21,8 +21,7 @@
       , "seed": "0.4.x"
     }
   , "devDependencies": {
-        "connect": "2.3.x"
-      , "mocha": "*"
+        "mocha": "*"
       , "chai": "*"
       , "chai-spies": "*"
       , "seed-redis": "*"
