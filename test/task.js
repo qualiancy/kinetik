@@ -46,4 +46,41 @@ describe('task models', function () {
     spy.should.have.been.called.once;
   });
 
+  describe('#retry', function() {
+    describe('retry(retryDelay, maxRetry)', function() {
+      before(function() {
+        task.retry(1, 2);
+      });
+
+      it('sets retry to true', function() {
+        task.get('retry').should.equal(true);
+      });
+
+      it('configures `maxRetry`', function() {
+        task.get('maxRetry').should.equal(2);
+      });
+
+      it('configures `retryDelay`', function() {
+        task.get('retryDelay').should.equal(1);
+      });
+    });
+
+    describe('retry(options)', function() {
+      before(function() {
+        task.retry({ retryDelay: 1, maxRetry: 2 });
+      });
+
+      it('sets retry to true', function() {
+        task.get('retry').should.equal(true);
+      });
+
+      it('configures `maxRetry`', function() {
+        task.get('maxRetry').should.equal(2);
+      });
+
+      it('configures `retryDelay`', function() {
+        task.get('retryDelay').should.equal(1);
+      });
+    });
+  });
 });
